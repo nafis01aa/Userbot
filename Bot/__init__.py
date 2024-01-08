@@ -39,9 +39,11 @@ if not SESSION_STRING:
     logger.error('Please fill the SESSION_STRING variable in config.json file!')
     sys.exit(1)
 
+logger.info('Creating user client!')
 user = Client('TGUserCli', api_id=API_ID, api_hash=API_HASH, session_string=SESSION_STRING, parse_mode=enums.ParseMode.MARKDOWN).start()
 
 if BOT_TOKEN:
+    logger.info('Creating bot client!')
     bot = Client('TGUserBot', api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN, parse_mode=enums.ParseMode.MARKDOWN).start()
 else:
     bot = ''
