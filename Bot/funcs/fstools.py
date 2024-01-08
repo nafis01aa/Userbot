@@ -8,8 +8,8 @@ def get_time(seconds):
         if seconds >= period_seconds:
             period_value, seconds = divmod(seconds, period_seconds)
             if int(period_value) > 1:
-                result += f'{int(period_value)}{period_name}s '
+                result += f'{int(period_value)} {period_name}s '
             else:
-                result += f'{int(period_value)}{period_name} '
+                result += f'{int(period_value)} {period_name} '
             
     return result
