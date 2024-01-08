@@ -15,4 +15,14 @@ async def get_id(_, message):
 
     if message.chat.type in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
         id_msg = (
-            f''
+            f'• MY ID:- {}\n'
+            f'• CHAT ID:- {}\n'
+            f'• MY PARMALINK:- {}\n\n'
+            f'{}'
+        )
+    else:
+        id_msg = (
+            f'• MY ID:- {}\n'
+            f'• MY PARMALINK:- {}\n\n'
+            f'{}'
+        )
