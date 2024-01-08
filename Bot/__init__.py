@@ -3,7 +3,7 @@ import sys
 import json
 import logging
 from time import time
-from pyrogram import Client, filters
+from pyrogram import Client, filters, enums
 
 os.system('cls || clear')
 logging.getLogger("pyrogram").setLevel(logging.ERROR)
