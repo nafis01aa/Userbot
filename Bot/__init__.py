@@ -2,7 +2,7 @@ import os
 import sys
 import json
 import logging
-from time import time
+from time import time, sleep
 from pyrogram import Client, filters, enums
 
 os.system('cls || clear')
@@ -12,6 +12,7 @@ logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s', handlers
 starting_time = time()
 logger = logging.getLogger(__name__)
 logger.info('Starting deploy userbot...')
+sleep(1)
 
 try:
     with open('config.json', 'r') as f:
