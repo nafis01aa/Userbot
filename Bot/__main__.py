@@ -39,8 +39,8 @@ def exiting(signal, frame):
     sys.exit(0)
 
 async def main():
-    user.add_handler(MessageHandler(yo, filters=filters.command('yo')))
-    user.add_handler(MessageHandler(ping, filters=filters.command('ping')))
+    user.add_handler(MessageHandler(yo, filters=(filters.me & filters.command(['yo'], ['/','.',',','!']))))
+    user.add_handler(MessageHandler(ping, filters=(filters.me & filters.command(['ping'], ['/','.',',','!']))))
     
     if bot:
         logger.info('Bot started! 🔥')
