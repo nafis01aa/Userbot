@@ -1,3 +1,5 @@
+![](https://graph.org/file/4ad2f96955fa9e219a0b2.jpg)
+
 This is a normal telegram userbot project. If this project goes well all, then soon it will become a powerful userbot. Hope that say will come soon!
 
 # What is userbot?
