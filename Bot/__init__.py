@@ -54,3 +54,5 @@ if BOT_TOKEN:
     bot_scheduler = AsyncIOScheduler(event_loop=bot_loop)
 else:
     bot = ''
+    bot_loop = ''
+    bot_scheduler = ''
