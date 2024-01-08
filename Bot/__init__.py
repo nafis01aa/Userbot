@@ -51,6 +51,11 @@ if not BOT_TOKEN:
 logger.info('Creating user client!')
 user = Client('TGUserCli', api_id=API_ID, api_hash=API_HASH, session_string=SESSION_STRING, parse_mode=enums.ParseMode.MARKDOWN).start()
 user_loop = user.loop
+print(user.me)
+user_name = user.me.username
+fn = user.me.first_name if user.me.first_name else 'Anonymous'
+ln = user.me.last_name if user.me.last_name else ''
+user_full_name = (f'{fn} {ln}').strip()
 user_scheduler = AsyncIOScheduler(event_loop=user_loop)
 
 if BOT_TOKEN:
