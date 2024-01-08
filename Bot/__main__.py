@@ -5,7 +5,7 @@ from datetime import datetime
 from signal import signal, SIGINT
 from pyrogram.handlers import MessageHandler, CallbackQueryHandler
 
-from Bot import user, bot, starting_time, logger
+from Bot import user, user_scheduler, bot, bot_scheduler, starting_time, logger
 
 async def yo(client, message):
     text = (
@@ -26,8 +26,15 @@ async def ping(client, message):
     await message.edit(f'`{end_time - start_time}` ms')
 
 def exiting(signal, frame):
-    if bot:
-        
+    try:
+        if bot_scheduler:
+            if bot_scheduler.running:
+                bot_scheduler.shutdown(wait=False)
+        if user_scheduler.running:
+            user_scheduler.shutdown(wait=False)
+    except:
+        pass
+    
     logger.info('Exiting deploy..!')
     sys.exit(0)
 
