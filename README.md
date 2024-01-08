@@ -39,3 +39,9 @@ python3 -m Bot
 ```
 
 And boom 🔥 Your userbot is ready to use! Enjoy!
+
+# Owner Of This Project
+
+Facebook: [Nafis Muhtadi](https://www.facebook.com/mdnafis.muhtadi)
+
+Telegram: [Nafis Muhtadi](https://t.me/Nafis_Muhtadi)
