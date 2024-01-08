@@ -3,6 +3,7 @@ from pyrogram import filters
 from pyrogram.handlers import MessageHandler
 
 from Bot.funcs.fstools import get_time
+from Bot.resources.imgs import alive_imgs
 from Bot import user, logger, starting_time, user_full_name
 
 async def alive(_, message):
