@@ -25,9 +25,11 @@ async def ping(client, message):
 
 async def main():
     user.add_handler(MessageHandler(start, filters=filters.command('yo')))
+    user.add_handler(MessageHandler(ping, filters=filters.command('ping')))
     
     if bot:
         logger.info('Bot started! 🔥')
+        sleep(1)
         bot.add_handler(MessageHandler(botstart, filters=filters.command('start')))
 
     logger.info('Userbot started! 🔥')
