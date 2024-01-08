@@ -5,7 +5,7 @@ from datetime import datetime
 from signal import signal, SIGINT
 from pyrogram.handlers import MessageHandler, CallbackQueryHandler
 
-from Bot.modules import pmusers
+from Bot.modules import alive, pmusers
 from Bot import user, user_scheduler, bot, bot_scheduler, starting_time, logger
 
 async def yo(client, message):
