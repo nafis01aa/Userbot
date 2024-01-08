@@ -24,6 +24,7 @@ except:
 BOT_TOKEN = configs.get('BOT_TOKEN', None)
 if not BOT_TOKEN:
     logger.warning('BOT_TOKEN variable is missing! Skipping...')
+    sleep(0.5)
 
 API_ID = configs.get('API_ID', None)
 if not API_ID:
