@@ -37,6 +37,12 @@ if not SESSION_STRING:
     logger.error('Please fill the SESSION_STRING variable in config.json file!')
     sys.exit(1)
 
+pm_hours = configs.get('PM_HOUR', None)
+if not pm_hours:
+    pm_hours = 1
+else:
+    pm_hours = int(pm_hours)
+
 BOT_TOKEN = configs.get('BOT_TOKEN', None)
 if not BOT_TOKEN:
     logger.warning('BOT_TOKEN variable is missing! Skipping...')
