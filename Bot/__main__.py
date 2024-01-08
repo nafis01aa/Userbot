@@ -1,5 +1,5 @@
 import sys
-from time import sleep
+from time import time, sleep
 from pyrogram import filters
 from datetime import datetime
 from signal import signal, SIGINT
@@ -7,9 +7,9 @@ from pyrogram.handlers import MessageHandler, CallbackQueryHandler
 
 from Bot import user, bot, starting_time, logger
 
-async def start(client, message):
+async def yo(client, message):
     text = (
-        f'**Welcome boss!**'
+        f'**Yoo!**'
     )
     await message.edit(text)
 
@@ -20,18 +20,17 @@ async def botstart(client, message):
     await message.reply(text)
 
 async def ping(client, message):
-    startmsg = int(round(time() * 1000))
+    start_time = int(round(time() * 1000))
     loading = await message.edit('`wait..`')
-    endmsg = int(round(time() * 1000))
-    pings = startmsg - endmsg
-    await message.edit(f'`{pings}` ms')
+    end_time = int(round(time() * 1000))
+    await message.edit(f'`{end_time - start_time}` ms')
 
-async def exiting(signal, frame):
+def exiting(signal, frame):
     logger.info('Exiting deploy..!')
     sys.exit(0)
 
 async def main():
-    user.add_handler(MessageHandler(start, filters=filters.command('yo')))
+    user.add_handler(MessageHandler(yo, filters=filters.command('yo')))
     user.add_handler(MessageHandler(ping, filters=filters.command('ping')))
     
     if bot:
