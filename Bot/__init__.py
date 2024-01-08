@@ -10,7 +10,7 @@ logging.getLogger("pyrogram").setLevel(logging.ERROR)
 logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s', handlers=[logging.FileHandler('logs.txt'), logging.StreamHandler()], level=logging.INFO)
 
 starting_time = time()
-logger = getLogger(__name__)
+logger = logging.getLogger(__name__)
 logger.info('Starting deploy userbot...')
 
 try:
