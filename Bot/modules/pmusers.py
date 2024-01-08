@@ -28,7 +28,7 @@ async def stop(client, message):
     _hold = pm_hours
     stop_warn = await message.edit(f"`Successfully stopped warning message for this chat for {_hold} hours`")
     user_id = message.chat.id
-    user_status[user_id] = time()
+    counted[user_id] = time()
     sleep(0.5)
     
     try:
