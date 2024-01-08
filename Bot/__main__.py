@@ -26,6 +26,8 @@ async def ping(client, message):
     await message.edit(f'`{end_time - start_time}` ms')
 
 def exiting(signal, frame):
+    if bot:
+        
     logger.info('Exiting deploy..!')
     sys.exit(0)
 
