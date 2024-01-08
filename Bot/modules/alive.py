@@ -14,11 +14,11 @@ async def _alive(_, message):
     uptime = get_time(time() - starting_time)
     alive_image = choice(alive_imgs)
     alive_msg = (
-        f'**--I Am Online--**\n\n'
-        f'**UPTIME:-** {uptime}\n'
-        f'**STATUS:-** Cool 🔥\n'
-        f'**PING:-** {end_time - start_time} ms\n'
-        f'**OWNER:-** {user_full_name}'
+        f'**--I AM ALIVE--**\n\n'
+        f'**◍ UPTIME:-** {uptime}\n'
+        f'**◍ STATUS:-** Cool 🔥\n'
+        f'**◍ PING:-** {end_time - start_time} ms\n'
+        f'**◍ OWNER:-** {user_full_name}'
     )
     await message.delete()
     await user.send_photo(chat_id=message.chat.id, photo=alive_image, caption=alive_msg)
