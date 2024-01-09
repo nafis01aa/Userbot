@@ -10,7 +10,7 @@ async def mute(_, message):
         await message.edit("`This plugin works in groups or supergroups only!`")
         return
 
-    get_me = await user.get_chat_member(chat_id=message.chat.id, "me")
+    get_me = await user.get_chat_member(chat_id=message.chat.id, user_id="me")
     if get_me.status not in [enums.ChatMemberStatus.OWNER, enums.ChatMemberStatus.ADMINISTRATOR]:
         await message.edit("`I am not admin, lul!`")
         sleep(1)
@@ -38,7 +38,7 @@ async def unmute(_, message):
         await message.edit("`This plugin works in groups or supergroups only!`")
         return
 
-    get_me = await user.get_chat_member(chat_id=message.chat.id, "me")
+    get_me = await user.get_chat_member(chat_id=message.chat.id, user_id="me")
     if get_me.status not in [enums.ChatMemberStatus.OWNER, enums.ChatMemberStatus.ADMINISTRATOR]:
         await message.edit("`I am not admin, lul!`")
         sleep(1)
