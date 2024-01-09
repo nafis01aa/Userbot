@@ -57,7 +57,7 @@ async def unmute(_, message):
     try:
         await user.restrict_chat_member(chat_id=message.chat.id, user_id=user_id, ChatPermissions(can_send_messages=True, can_send_media_messages=True, can_send_other_messages=True))
         user_link = f"[User](tg://user?id={user_id})"
-        await message.edit(f"{user_link} `is muted!`")
+        await message.edit(f"{user_link} `is unmuted! ✅`")
     except Exception as e:
         await message.edit(f"`ERROR: {e}`")
 
