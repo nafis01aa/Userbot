@@ -25,4 +25,4 @@ async def mute(_, message):
 
         user_id = message.command[1]
 
-    user.restrict_chat_member(chat_id=message.chat.id, )
+    await user.restrict_chat_member(chat_id=message.chat.id, )
