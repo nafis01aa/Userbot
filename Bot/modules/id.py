@@ -20,24 +20,24 @@ async def get_id(_, message):
         replied_user_full_name = (f'{replied_user_fn} {replied_user_ln}').strip()
         replied_user_parmalink = f"[Here](tg://user?id={replied_user_id})"
         replying_info = (
-            f'• REPLIED USER INFO •\n\n'
-            f'• ID:- {replied_user_id}\n'
-            f'• USERNAME:- {replied_user_name}\n'
-            f'• FULL NAME:- {replied_user_full_name}\n'
-            f'• PARMALINK:- {replied_user_parmalink}'
+            f'• **REPLIED USER INFO** •\n\n'
+            f'• **ID:-** `{replied_user_id}`\n'
+            f'• **USERNAME:-** @{replied_user_name}\n'
+            f'• **FULL NAME:-** `{replied_user_full_name}`\n'
+            f'• **PARMALINK:-** {replied_user_parmalink}'
         )
 
     if message.chat.type in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
         id_msg = (
-            f'• MY ID:- {message.from_user.id}\n'
-            f'• CHAT ID:- {message.chat.id}\n'
-            f'• MY PARMALINK:- {my_parmalink}\n\n'
+            f'• **MY ID:-** `{message.from_user.id}`\n'
+            f'• **CHAT ID:-** `{message.chat.id}`\n'
+            f'• **MY PARMALINK:-** {my_parmalink}\n\n'
             f'{replying_info}'
         )
     else:
         id_msg = (
-            f'• MY ID:- {message.from_user.id}\n'
-            f'• MY PARMALINK:- {my_parmalink}\n\n'
+            f'• **MY ID:-** `{message.from_user.id}`\n'
+            f'• **MY PARMALINK:-** {my_parmalink}\n\n'
             f'{replying_info}'
         )
     await message.edit(id_msg, disable_web_page_preview=True)
