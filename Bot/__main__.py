@@ -6,7 +6,7 @@ from signal import signal, SIGINT
 from pyrogram.handlers import MessageHandler, CallbackQueryHandler
 
 from Bot.tools import ban, mute
-from Bot.modules import alive, id, pmusers
+from Bot.plugins import alive, id, pmusers
 from Bot import user, user_scheduler, bot, bot_scheduler, starting_time, logger
 
 async def yo(client, message):
