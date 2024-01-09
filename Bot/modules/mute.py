@@ -48,7 +48,10 @@ async def mute(_, message):
             await user.restrict_chat_member(chat_id=message.chat.id, user_id=user_id, permissions=ChatPermissions())
         
         user_link = f"[User](tg://user?id={user_id})"
-        await message.edit(f"{user_link} `is muted! ⛔`")
+        if duration:
+            await message.edit(f"{user_link} `is muted for {duration} hours! ⛔`")
+        else:
+            await message.edit(f"{user_link} `is muted forever! ⛔`")
         sleep(3)
         await message.delete()
     except Exception as e:
@@ -82,7 +85,7 @@ async def unmute(_, message):
     try:
         await user.restrict_chat_member(chat_id=message.chat.id, user_id=user_id, permissions=ChatPermissions(can_send_messages=True, can_send_media_messages=True, can_send_other_messages=True))
         user_link = f"[User](tg://user?id={user_id})"
-        await message.edit(f"{user_link} `is unmuted! ✅`")
+        await message.edit(f"{user_link} `is unmuted in this chat! ✅`")
         sleep(3)
         await message.delete()
     except Exception as e:
