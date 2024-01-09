@@ -1,11 +1,13 @@
+import asyncio
 from time import sleep
 from pyrogram import filters, enums
+from pyrogram.errors import FloodWait
 from pyrogram.handlers import MessageHandler
 
 from Bot import user, logger
 
 async def gban(_, message):
-    chats = 0
+    banned_chats = 0
     if message.reply_to_message:
         user_id = message.reply_to_message.from_user.id
         if len(message.command) > 1:
@@ -25,12 +27,23 @@ async def gban(_, message):
             reason = message.command[2]
         else:
             reason = None
-    
+
+    get_user = await user.get_chat(user_id)
     loading = await message.edit("`Gbanning...`")
     
     async for dialog in app.get_dialogs():
-        if 
-        js
+        try:
+            chat_id = dialog.chat.id
+            await user.ban_chat_member(chat_id=chat_id, user_id=user_id)
+            banned_chats += 1
+        except FloodWait as e:
+            await asyncio.sleep(e.value)
+            chat_id = dialog.chat.id
+            await user.ban_chat_member(chat_id=chat_id, user_id=user_id)
+            banned_chats += 1
+        except:
+            pass
 
+    await message.edit("**#Gbanned** `{get_user.first_name} in {banned_chats} chats and removed!`")
 
 user.add_handler(MessageHandler(gban, filters=(filters.me & filters.command(['gban'], ['/','.',',','!']))))
