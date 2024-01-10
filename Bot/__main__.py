@@ -45,7 +45,7 @@ async def logs(_, message):
         log_text = Loglines
         await message.edit(text=log_text, disable_web_page_preview=True)
     except Exception as e:
-        logger.error(f"LOG ERROR: {e}")
+        logger.error(f"{e}")
 
 def exiting(signal, frame):
     try:
