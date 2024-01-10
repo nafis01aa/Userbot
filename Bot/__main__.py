@@ -37,7 +37,7 @@ async def logs(_, message):
         while len(Loglines) <= 2500:
             Loglines = f'{logtextlines[-ind]}\n{Loglines}'
             
-            if ind == len(logFileLines):
+            if ind == len(logtextlines):
                 break
             
             ind += 1
