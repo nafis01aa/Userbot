@@ -19,10 +19,15 @@ async def purge(_, message):
             return
 
         from_msg_id = int(message.command[1])
-    
-    await message.edit("`Purging...`")
+
+    del_counts = 0
+    await message.edit("`Purging in progress...`")
     
     for msg_ids in get_ids(from_msg_id, message.id + 1):
         try:
+            last_deletes = await user.delete_messages(chat_id=message.chat.id, message_ids=msg_ids)
+            del_counts += last_deletes
+        except:
+            pass
 
 user.add_handler()
