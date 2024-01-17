@@ -14,6 +14,6 @@ session_string = user.export_session_string()
 
 print(f"Your Session String is:\n\n{session_string}")
 
-app.send_message('me', f'**SESSION STRING FROM USERBOT:**\n\n`{string_}`', parse_mode=enums.ParseMode.MARKDOWN)
+user.send_message('me', f'**SESSION STRING FROM USERBOT:**\n\n`{string_}`', parse_mode=enums.ParseMode.MARKDOWN)
 
 print('\n\nAlso this string is saved in your SAVED MESSAGES section')
