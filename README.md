@@ -35,10 +35,20 @@ pip3 install -r requirements.txt
 Then run this below command to deploy:-
 
 ```
-python3 -m Bot
+bash start.sh
 ```
 
 And boom 🔥 Your userbot is ready to use! Enjoy!
+
+# Get Session String
+
+After cloning the repo, open the folder and run this command:-
+
+```
+python3 sessiongen.py
+```
+
+It will ask for your api id, api hash and phone number. And finally after confirmations, it will print and save the session string on your Saved Messages section in telegram app.
 
 # Owner Of This Project
 
