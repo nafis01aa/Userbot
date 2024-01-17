@@ -2,7 +2,9 @@ from pyrogram import filters, enums
 from pyrogram.handlers import MessageHandler
 
 from Bot import user, logger
+from Bot.funcs.asynctools import new_task
 
+@new_task
 async def get_id(_, message):
     if message.reply_to_message:
         replied_user = message.reply_to_message.from_user
