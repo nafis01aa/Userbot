@@ -5,8 +5,10 @@ from pyrogram.handlers import MessageHandler
 
 from Bot.funcs.fstools import get_time
 from Bot.resources.imgs import alive_imgs
+from Bot.funcs.asynctools import new_task
 from Bot import user, logger, starting_time, user_full_name, user_userid
 
+@new_task
 async def _alive(_, message):
     start_time = int(round(time() * 1000))
     await message.edit('`..`')
