@@ -2,14 +2,22 @@ from pyrogram import filters
 from pyrogram.enums import MessageMediaType 
 from pyrogram.handlers import MessageHandler
 
-from Bot import user, logger
+from Bot import user, logger, DOWNLOAD_DIR
 
-def handle_media_groups(chat_id: int, message_id: int):
+def handle_media_groups(message, chat_id: int, message_id: int):
     InputList = []
     medias = await user.get_media_group(chat_id=chat_id, message_id=message_id)
 
     for content in medias:
-        if content.media == enums.MessageMediaType.VIDEO:
+        path = user.download_media(message=content, file_name=f'{DOWNLOAD_DIR}/{message.id}/')
+        if content.media == MessageMediaType.VIDEO:
+            InputList.append(InputMediaVideo(path, caption=content.caption))
+        elif content.media == MessageMediaType.PHOTO:
+            InputList.append(InputMediaPhoto(path, caption=content.caption))
+        elif content.media == MessageMediaType.VIDEO:
+            InputList.append(InputMediaAudio(path, caption=content.caption))
+        elif content.media == MessageMediaType.VIDEO:
+            InputList.append(InputMediaDocument(path, caption=content.caption))
 
 def handle_forward(message, chat_id: int, message_id: int):
     try:
