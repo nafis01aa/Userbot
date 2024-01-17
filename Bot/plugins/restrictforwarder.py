@@ -3,8 +3,8 @@ from pyrogram import filters
 from pyrogram.enums import MessageMediaType 
 from pyrogram.handlers import MessageHandler
 
-from Bot.funcs.asynctools import 
 from Bot import user, logger, DOWNLOAD_DIR
+from Bot.funcs.asynctools import new_task, sync_to_async
 
 def handle_media_groups(message, chat_id: int, message_id: int):
     InputList = []
@@ -24,16 +24,8 @@ def handle_media_groups(message, chat_id: int, message_id: int):
 
     return InputList
 
-def handle_forward(message, chat_id: int, message_id: int):
-    try:
-        msg = user.get_messages(chat_id=chat_id, message_ids=message_id)
-    except Exception as e:
-        logger.error(e)
-        return {"status": False, "message": e}
-
-    if msg.media and msg.media_group_id:
-        medias = await sync_to_async(handle_media_groups, message, chat_id, message_id)
-    elif msg.media and not msg.media_group_id:
+def handle_forward(message, msg):
+    if msg.media:
         path = user.download_media(message=msg, file_name=f'{DOWNLOAD_DIR}/{message.id}/')
 
         message.edit("`Uploading..`")
@@ -56,6 +48,7 @@ def handle_forward(message, chat_id: int, message_id: int):
     else:
         user.send_message(message.chat.id, text=msg.text, entities=msg.entities)
 
+@new_task
 async def on_forward(_, message):
     if len(message.command) < 2:
         await message.edit("`Provide me a message link`")
@@ -90,5 +83,17 @@ async def on_forward(_, message):
 
     await message.edit("`Downloading..`")
     
+    try:
+        msg = await user.get_messages(chat_id=chat_id, message_ids=message_id)
+    except Exception as e:
+        logger.error(e)
+        await message.edit(f"Error: {e}")
+        return
+
+    if msg.media and msg.media_group_id:
+        medias = await sync_to_async(handle_media_groups, message, chat_id, message_id)
+        hjj
+    else:
+        await sync_to_async()
 
 user.add_handler(MessageHandler(on_forward, filters=(filters.me & filters.command(['forward','getmsg'], ['/','.',',','!']))))
