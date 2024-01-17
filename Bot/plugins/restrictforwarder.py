@@ -32,9 +32,27 @@ def handle_forward(message, chat_id: int, message_id: int):
     if msg.media and msg.media_group_id:
         medias = await sync_to_async(handle_media_groups, message, chat_id, message_id)
     elif msg.media and not msg.media_group_id:
-        path = await user.download_media(message=msg, file_name=f'{DOWNLOAD_DIR}/{message.id}/')
-        
+        path = user.download_media(message=msg, file_name=f'{DOWNLOAD_DIR}/{message.id}/')
+
+        message.edit("`Uploading..`")
         if msg.media == MessageMediaType.PHOTO:
+            user.send_photo(message.chat.id, photo=path, caption=msg.caption, caption_entities=msg.entities)
+        elif msg.media == MessageMediaType.VIDEO:
+            user.send_video(message.chat.id, video=path, caption=msg.caption, caption_entities=msg.entities)
+        elif msg.media == MessageMediaType.AUDIO:
+            user.send_audio(message.chat.id, audio=path, caption=msg.caption, caption_entities=msg.entities)
+        elif msg.media == MessageMediaType.DOCUMENT:
+            user.send_document(message.chat.id, document=path, caption=msg.caption, caption_entities=msg.entities)
+        elif msg.media == MessageMediaType.STICKER:
+            user.send_sticker(message.chat.id, sticker=path)
+        elif msg.media == MessageMediaType.ANIMATION:
+            user.send_animation(message.chat.id, animation=path, caption=msg.caption, caption_entities=msg.entities)
+        elif msg.media == MessageMediaType.VOICE:
+            user.send_voice(message.chat.id, voice=path, caption=msg.caption, caption_entities=msg.entities)
+        elif msg.media == MessageMediaType.VIDEO_NOTE:
+            user.send_video_note(message.chat.id, video_note=path)
+    else:
+        user.send_message(message.chat.id, text=msg.text, entities=msg.entities)
 
 async def on_forward(_, message):
     if len(message.command) < 2:
@@ -51,7 +69,10 @@ async def on_forward(_, message):
     
     if "t.me/c/" in url:
         chat_id = int('-100' + url.split('/')[-2])
+    elif "t.me/b/" in url:
+        chat_id = int(url.split('/')[-2])
     else:
+        if "t.me/+" or "t.me/joinchat" in url:
         chat_id = url.split('/')[-2]
 
 user.add_handler(MessageHandler(on_forward, filters=(filters.me & filters.command(['forward','getmsg'], ['/','.',',','!']))))
