@@ -50,14 +50,14 @@ else:
 
 pm_hours = configs.get('PM_HOUR', None)
 if not pm_hours:
-    pm_hours = 1
+    pm_hours = 24 # 24 hours - one day
 else:
     pm_hours = int(pm_hours)
 
 BOT_TOKEN = configs.get('BOT_TOKEN', None)
 if not BOT_TOKEN:
     logger.warning('BOT_TOKEN variable is missing! Skipping...')
-    sleep(0.5)
+    sleep(1)
 
 logger.info('Creating user client!')
 user = Client('TGUserCli', api_id=API_ID, api_hash=API_HASH, session_string=SESSION_STRING, parse_mode=enums.ParseMode.MARKDOWN).start()
