@@ -115,7 +115,7 @@ async def on_forward(_, message):
 
     if msg.media and msg.media_group_id:
         try:
-            await msg.copy(chat_id=message.chat.id)
+            await user.copy_media_group(chat_id=message.chat.id, from_chat_id=msg.chat.id, message_id=msg.id)
             await message.delete()
         except ChatForwardsRestricted:
             await sync_to_async(handle_media_groups, message, chat_id, message_id)
