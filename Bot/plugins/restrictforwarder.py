@@ -10,6 +10,7 @@ def handle_media_groups(message, chat_id: int, message_id: int):
 
     for content in medias:
         path = user.download_media(message=content, file_name=f'{DOWNLOAD_DIR}/{message.id}/')
+        
         if content.media == MessageMediaType.VIDEO:
             InputList.append(InputMediaVideo(path, caption=content.caption))
         elif content.media == MessageMediaType.PHOTO:
@@ -30,8 +31,10 @@ def handle_forward(message, chat_id: int, message_id: int):
 
     if msg.media and msg.media_group_id:
         medias = await sync_to_async(handle_media_groups, message, chat_id, message_id)
-    else:
-        h
+    elif msg.media and not msg.media_group_id:
+        path = await user.download_media(message=msg, file_name=f'{DOWNLOAD_DIR}/{message.id}/')
+        
+        if msg.media == MessageMediaType.PHOTO:
 
 async def on_forward(_, message):
     if len(message.command) < 2:
