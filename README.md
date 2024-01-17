@@ -1,14 +1,14 @@
 ![Phoenix Userbot](https://graph.org/file/4ad2f96955fa9e219a0b2.jpg)
 
-This is a normal telegram userbot project. If this project goes well all, then soon it will become a powerful userbot. Hope that say will come soon!
+This is a normal telegram userbot project. If this project goes well all, then soon it will become a powerful userbot. Hope that day will come soon!
 
 # What is userbot?
 
-Userbot is a powerful program that makes your telegram account automatic do some tasks. It will shorten your task time and do prepare for you. Just be aware not to spam by userbot!
+Userbot is a powerful program that makes your telegram account automatic do various tasks. It will shorten your time and do tasks for you automatically. Just be aware not to spam or rough use by userbot!
 
 # Deploy This Project
 
-First, clone this repository using the below command:-
+First, clone this repository using this command:-
 
 ```
 git clone https://github.com/nafis01aa/Userbot
@@ -20,7 +20,7 @@ Then, open project folder using this command:-
 cd Userbot
 ```
 
-Then, edit the config.json file in this folder by nano command:-
+Then, edit the config.json file in this folder by nano editor using this command:-
 
 ```
 nano config.json
