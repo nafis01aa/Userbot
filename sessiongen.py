@@ -1,6 +1,6 @@
 from pyrogram import Client, enums
 
-api_id = int(input('Enter Your API ID:- '))
+api_id = input('Enter Your API ID:- ')
 api_hash = input('Enter Your API Hash:- ')
 
 app = Client(name='temp_ses', api_id=api_id, api_hash=api_id, in_memory=True)
