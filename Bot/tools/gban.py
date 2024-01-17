@@ -5,7 +5,9 @@ from pyrogram.errors import FloodWait
 from pyrogram.handlers import MessageHandler
 
 from Bot import user, logger
+from Bot.funcs.asynctools import new_task
 
+@new_task
 async def gban(_, message):
     banned_chats = 0
     if message.reply_to_message:
