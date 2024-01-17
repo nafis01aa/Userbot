@@ -2,9 +2,8 @@ from pyrogram import Client, enums
 
 api_id = int(input('Enter Your API ID:- '))
 api_hash = input('Enter Your API Hash:- ')
-phone_number = input('Enter Your Phone Number [With Country Code] :- ')
 
-app = Client('temporary_session', api_id, api_hash, phone_number=phone_number, in_memory=True)
+app = Client(name='temp_ses', api_id=api_id, api_hash=api_id, in_memory=True)
 app.start()
 
 string_ = app.export_session_string()
