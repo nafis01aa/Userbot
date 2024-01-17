@@ -47,19 +47,6 @@ async def logs(_, message):
     except Exception as e:
         logger.error(f"{e}")
 
-def exiting(signal, frame):
-    try:
-        if bot_scheduler:
-            if bot_scheduler.running:
-                bot_scheduler.shutdown(wait=False)
-        if user_scheduler.running:
-            user_scheduler.shutdown(wait=False)
-    except:
-        pass
-    
-    logger.info('Exiting deploy..!')
-    sys.exit(0)
-
 async def main():
     user.add_handler(MessageHandler(yo, filters=(filters.me & filters.command(['yo'], ['/','.',',','!']))))
     user.add_handler(MessageHandler(logs, filters=(filters.me & filters.command(['log','logs'], ['/','.',',','!']))))
