@@ -1,12 +1,19 @@
-from pyrogram import Client, enums
+from pyrogram import Client
 
-api_id = input('Enter Your API ID:- ')
-api_hash = input('Enter Your API Hash:- ')
+api_id = input("Enter Your API ID: ")
 
-app = Client(name='temp_ses', api_id=api_id, api_hash=api_id, in_memory=True)
-app.start()
+api_hash = input("Enter Your API HASH: ")
 
-string_ = app.export_session_string()
+phone_number = input("Enter Your Phone Number: ")
+
+user = Client("temporary", api_id, api_hash, phone_number=phone_number, in_memory=True)
+
+user.start()
+
+session_string = user.export_session_string()
+
+print(f"Your Session String is:\n\n{session_string}")
+
 app.send_message('me', f'**SESSION STRING FROM USERBOT:**\n\n`{string_}`', parse_mode=enums.ParseMode.MARKDOWN)
-print(f'This is your session string:- \n\n{string_}')
+
 print('\n\nAlso this string is saved in your SAVED MESSAGES section')
