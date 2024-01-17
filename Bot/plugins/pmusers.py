@@ -3,6 +3,7 @@ from pyrogram import filters
 from pyrogram.handlers import MessageHandler
 
 from Bot import user, logger, pm_hours
+from Bot.resources.imgs import pm_warn_imgs
 
 counted = {}
 previous_msg = {}
