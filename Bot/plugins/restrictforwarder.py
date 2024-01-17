@@ -2,6 +2,7 @@ import re
 from pyrogram import filters
 from pyrogram.enums import MessageMediaType 
 from pyrogram.handlers import MessageHandler
+from pyrogram.errors import ChatForwardsRestricted
 from pyrogram.types import InputMediaPhoto, InputMediaVideo, InputMediaAudio, InputMediaDocument
 
 from Bot import user, logger, DOWNLOAD_DIR
@@ -30,33 +31,42 @@ def handle_media_groups(message, chat_id: int, message_id: int):
 
 def handle_forward(message, msg):
     if msg.media:
-        path = user.download_media(message=msg, file_name=f'{DOWNLOAD_DIR}/{message.id}/')
-
         message.edit("`Uploading..`")
         if msg.media == MessageMediaType.PHOTO:
+            path = user.download_media(message=msg, file_name=f'{DOWNLOAD_DIR}/{message.id}/')
             user.send_photo(message.chat.id, photo=path, caption=msg.caption, caption_entities=msg.entities)
             message.delete()
         elif msg.media == MessageMediaType.VIDEO:
+            path = user.download_media(message=msg, file_name=f'{DOWNLOAD_DIR}/{message.id}/')
             user.send_video(message.chat.id, video=path, caption=msg.caption, caption_entities=msg.entities)
             message.delete()
         elif msg.media == MessageMediaType.AUDIO:
+            path = user.download_media(message=msg, file_name=f'{DOWNLOAD_DIR}/{message.id}/')
             user.send_audio(message.chat.id, audio=path, caption=msg.caption, caption_entities=msg.entities)
             message.delete()
         elif msg.media == MessageMediaType.DOCUMENT:
+            path = user.download_media(message=msg, file_name=f'{DOWNLOAD_DIR}/{message.id}/')
             user.send_document(message.chat.id, document=path, caption=msg.caption, caption_entities=msg.entities)
             message.delete()
         elif msg.media == MessageMediaType.STICKER:
+            path = user.download_media(message=msg, file_name=f'{DOWNLOAD_DIR}/{message.id}/')
             user.send_sticker(message.chat.id, sticker=path)
             message.delete()
         elif msg.media == MessageMediaType.ANIMATION:
+            path = user.download_media(message=msg, file_name=f'{DOWNLOAD_DIR}/{message.id}/')
             user.send_animation(message.chat.id, animation=path, caption=msg.caption, caption_entities=msg.entities)
             message.delete()
         elif msg.media == MessageMediaType.VOICE:
+            path = user.download_media(message=msg, file_name=f'{DOWNLOAD_DIR}/{message.id}/')
             user.send_voice(message.chat.id, voice=path, caption=msg.caption, caption_entities=msg.entities)
             message.delete()
         elif msg.media == MessageMediaType.VIDEO_NOTE:
+            path = user.download_media(message=msg, file_name=f'{DOWNLOAD_DIR}/{message.id}/')
             user.send_video_note(message.chat.id, video_note=path)
             message.delete()
+        elif msg.media == MessageMediaType.WEB_PAGE:
+            message.delete()
+            user.send_message(message.chat.id, text=msg.text, entities=msg.entities)
     else:
         message.delete()
         user.send_message(message.chat.id, text=msg.text, entities=msg.entities)
@@ -68,12 +78,16 @@ async def on_forward(_, message):
         return
 
     url = message.text.split(maxsplit=1)[1]
-    match = re.search(r'https?://t\.me/[a-zA-Z0-9_]+', url)
+    match = re.search(r'https?://t\.me/[^\s<>"]+', url)
 
     if match:
         url = match.group()
     else:
         await message.edit("`No Telegram Link Found!`")
+        return
+    
+    if "https://t.me/+" in url or "https://t.me/joinchat/" in url:
+        await message.edit("`Provide me a message link, not join/invite link`")
         return
     
     message_id = url.split('/')[-1]
@@ -88,10 +102,6 @@ async def on_forward(_, message):
     elif "t.me/b/" in url:
         chat_id = int(url.split('/')[-2])
     else:
-        if "t.me/+" or "t.me/joinchat" in url:
-            await message.edit("`Provide me a message link, not join/invite link`")
-            return
-        
         chat_id = url.split('/')[-2]
 
     await message.edit("`Downloading..`")
@@ -104,9 +114,17 @@ async def on_forward(_, message):
         return
 
     if msg.media and msg.media_group_id:
-        await sync_to_async(handle_media_groups, message, chat_id, message_id)
+        try:
+            await msg.copy(chat_id=message.chat.id)
+            await message.delete()
+        except ChatForwardsRestricted:
+            await sync_to_async(handle_media_groups, message, chat_id, message_id)
     else:
-        await sync_to_async(handle_forward, message, msg)
+        try:
+            await msg.copy(chat_id=message.chat.id)
+            await message.delete()
+        except ChatForwardsRestricted:
+            await sync_to_async(handle_forward, message, msg)
 
     await clean_download(f'{DOWNLOAD_DIR}/{message.id}')
 
