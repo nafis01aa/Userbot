@@ -5,10 +5,17 @@ from pyrogram.handlers import MessageHandler
 from Bot import user, logger, pm_hours
 
 counted = {}
+previous_msg = {}
 
 async def on_pm(client, message):
     user_id = message.chat.id
     pm_hold = pm_hours * 3600
+
+    if user_id in previous_msg:
+        try:
+            await user.delete_messages(message.chat.id, previous_msg[user_id])
+        except:
+            pass
     
     if user_id in counted:
         elapsed_time = time() - counted[user_id]
@@ -17,19 +24,14 @@ async def on_pm(client, message):
             return
     
     warn_message = await message.reply("Please don't spam, I will come back soon!")
-    sleep(1)
-    
-    try:
-        await user.delete_messages(message.chat.id, warn_message.id)
-    except:
-        pass
+    previous_msg[user_id] = warn_message.id
 
 async def stop(client, message):
     _hold = pm_hours
     stop_warn = await message.edit(f"`Successfully stopped warning message for this chat for {_hold} hours`")
     user_id = message.chat.id
     counted[user_id] = time()
-    sleep(0.5)
+    sleep(5)
     
     try:
         await user.delete_messages(message.chat.id, stop_warn.id)
