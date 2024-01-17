@@ -1,3 +1,4 @@
+import re
 from pyrogram import filters
 from pyrogram.enums import MessageMediaType 
 from pyrogram.handlers import MessageHandler
@@ -59,7 +60,15 @@ async def on_forward(_, message):
         await message.edit("`Provide me a message link`")
         return
 
-    url = message.command[1]
+    url = message.text.split(maxsplit=1)[1]
+    match = re.search(r'https?://t\.me/[a-zA-Z0-9_]+', url)
+
+    if match:
+        url = match.group()
+    else:
+        await message.edit("`No Telegram Link Found!`")
+        return
+    
     message_id = url.split('/')[-1]
 
     if '?' in message_id:
@@ -73,6 +82,12 @@ async def on_forward(_, message):
         chat_id = int(url.split('/')[-2])
     else:
         if "t.me/+" or "t.me/joinchat" in url:
+            await message.edit("`Provide me a message link, not join/invite link`")
+            return
+        
         chat_id = url.split('/')[-2]
+
+    await message.edit("`Downloading..`")
+    
 
 user.add_handler(MessageHandler(on_forward, filters=(filters.me & filters.command(['forward','getmsg'], ['/','.',',','!']))))
