@@ -44,6 +44,9 @@ if not SESSION_STRING:
 DOWNLOAD_DIR = configs.get('DOWNLOAD_DIR', None)
 if not DOWNLOAD_DIR:
     DOWNLOAD_DIR = 'downloads'
+else:
+    if DOWNLOAD_DIR.endswith('/'):
+        DOWNLOAD_DIR = DOWNLOAD_DIR.rstrip('/')
 
 pm_hours = configs.get('PM_HOUR', None)
 if not pm_hours:
@@ -61,9 +64,9 @@ user = Client('TGUserCli', api_id=API_ID, api_hash=API_HASH, session_string=SESS
 user_loop = user.loop
 user_name = user.me.username
 user_userid = user.me.id
-fn = user.me.first_name if user.me.first_name else 'Anonymous'
-ln = user.me.last_name if user.me.last_name else ''
-user_full_name = (f'{fn} {ln}').strip()
+first_name = user.me.first_name if user.me.first_name else 'Anonymous'
+last_name = user.me.last_name if user.me.last_name else ''
+user_full_name = (f'{first_name} {last_name}').strip()
 user_scheduler = AsyncIOScheduler(event_loop=user_loop)
 
 if BOT_TOKEN:
