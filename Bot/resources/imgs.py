@@ -7,8 +7,5 @@ alive_imgs = [
 
 pm_warn_imgs = [
     "https://graph.org/file/f4858b80dbc68df6efc1e.jpg",
-    "https://graph.org/file/5237769ea23621e3b6c9e.jpg",
-    "",
-    "",
-    ""
+    "https://graph.org/file/5237769ea23621e3b6c9e.jpg"
 ]
