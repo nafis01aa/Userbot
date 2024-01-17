@@ -2,6 +2,7 @@ from pyrogram import filters
 from pyrogram.handlers import MessageHandler
 
 from Bot import user, logger
+from Bot.funcs.asynctools import new_task
 
 def get_ids(from_id: int, to_id: int):
     current_id = from_id
@@ -10,6 +11,7 @@ def get_ids(from_id: int, to_id: int):
         yield list(range(current_id, min(current_id + 100, to_id)))
         current_id += 100
 
+@new_task
 async def purge(_, message):
     if message.reply_to_message:
         from_msg_id = message.reply_to_message.id
