@@ -5,7 +5,9 @@ from pyrogram.types import ChatPermissions
 from pyrogram.handlers import MessageHandler
 
 from Bot import user, logger
+from Bot.funcs.asynctools import new_task
 
+@new_task
 async def ban(_, message):
     if message.chat.type not in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
         await message.edit("`This plugin works in groups and supergroups only!`")
@@ -57,6 +59,7 @@ async def ban(_, message):
     except Exception as e:
         await message.edit(f"`ERROR: {e}`")
 
+@new_task
 async def unban(_, message):
     if message.chat.type not in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
         await message.edit("`This plugin works in groups and supergroups only!`")
