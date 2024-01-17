@@ -108,6 +108,6 @@ async def on_forward(_, message):
     else:
         await sync_to_async(handle_forward, message, msg)
 
-    await clean_download(f'{DOWNLOAD_DIR}/{message.id})
+    await clean_download(f'{DOWNLOAD_DIR}/{message.id}')
 
 user.add_handler(MessageHandler(on_forward, filters=(filters.me & filters.command(['forward','getmsg'], ['/','.',',','!']))))
