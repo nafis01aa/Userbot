@@ -18,8 +18,11 @@ sleep(1)
 try:
     with open('config.json', 'r') as f:
         configs = json.load(f)
-except:
-    logger.error('Config.json file is missing! Please check.')
+except FileNotFoundError:
+    logger.error('config.json file is missing! Please check.')
+    sys.exit(1)
+except JSONDecodeError:
+    logger.error('config.json file error! Probably comma or unterminated brackets!')
     sys.exit(1)
 
 API_ID = configs.get('API_ID', None)
