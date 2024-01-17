@@ -26,32 +26,41 @@ Then, edit the config.json file in this folder by nano editor using this command
 nano config.json
 ```
 
-After that install necessary dependencies for this userbot:-
+After that install necessary modules for this userbot:-
 
 ```
 pip3 install -r requirements.txt
 ```
 
-Then run this below command to deploy:-
+Then run this command to deploy this userbot:-
 
 ```
 bash start.sh
 ```
 
-And boom 🔥 Your userbot is ready to use! Enjoy!
+And boom 🔥 Your userbot is ready to use. Enjoy!
 
 # Get Session String
 
-After cloning the repo, open the folder and run this command:-
+If you still have not clone this repository, then use this command to clone this repository first:-
+
+```
+git clone https://github.com/nafis01aa/Userbot
+```
+
+[NOTE]: If you have cloned this repository already, then skip this step!
+
+
+Open the project folder and run this command:-
 
 ```
 python3 sessiongen.py
 ```
 
-It will ask for your api id, api hash and phone number. And finally after confirmations, it will print and save the session string on your Saved Messages section in telegram app.
+It will ask for your API ID, API HASH and PHONE NUMBER. And inally after confirmations, it will print and save the session string on your Saved Messages section in telegram app.
 
 # Owner Of This Project
 
-Facebook: [Nafis Muhtadi](https://www.facebook.com/mdnafis.muhtadi)
+Facebook: [Here](https://www.facebook.com/mdnafis.muhtadi)
 
-Telegram: [Nafis Muhtadi](https://t.me/Nafis_Muhtadi)
+Telegram: [Here](https://t.me/Nafis_Muhtadi)
