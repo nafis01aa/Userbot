@@ -1,3 +1,6 @@
+from aiofiles.os import path as aiopath
+from aioshutil import rmtree as aiormtree
+
 from Bot import user, bot, logger
 
 def get_time(seconds):
@@ -13,3 +16,11 @@ def get_time(seconds):
                 result += f'{int(period_value)} {period_name} '
             
     return result
+
+async def clean_download(path):
+    if await aiopath.exists(path):
+        logger.info(f"Cleaning Download: {path}")
+        try:
+            await aiormtree(path)
+        except:
+            pass
