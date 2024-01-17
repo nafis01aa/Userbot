@@ -6,7 +6,7 @@ from Bot import user, logger, DOWNLOAD_DIR
 
 def handle_media_groups(message, chat_id: int, message_id: int):
     InputList = []
-    medias = await user.get_media_group(chat_id=chat_id, message_id=message_id)
+    medias = user.get_media_group(chat_id=chat_id, message_id=message_id)
 
     for content in medias:
         path = user.download_media(message=content, file_name=f'{DOWNLOAD_DIR}/{message.id}/')
@@ -14,10 +14,12 @@ def handle_media_groups(message, chat_id: int, message_id: int):
             InputList.append(InputMediaVideo(path, caption=content.caption))
         elif content.media == MessageMediaType.PHOTO:
             InputList.append(InputMediaPhoto(path, caption=content.caption))
-        elif content.media == MessageMediaType.VIDEO:
+        elif content.media == MessageMediaType.AUDIO:
             InputList.append(InputMediaAudio(path, caption=content.caption))
-        elif content.media == MessageMediaType.VIDEO:
+        elif content.media == MessageMediaType.DOCUMENT:
             InputList.append(InputMediaDocument(path, caption=content.caption))
+
+    return InputList
 
 def handle_forward(message, chat_id: int, message_id: int):
     try:
@@ -26,7 +28,10 @@ def handle_forward(message, chat_id: int, message_id: int):
         logger.error(e)
         return {"status": False, "message": e}
 
-    if msg.media and msg.media_group_id
+    if msg.media and msg.media_group_id:
+        medias = await sync_to_async(handle_media_groups, message, chat_id, message_id)
+    else:
+        h
 
 async def on_forward(_, message):
     if len(message.command) < 2:
