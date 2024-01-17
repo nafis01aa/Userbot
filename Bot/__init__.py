@@ -37,6 +37,10 @@ if not SESSION_STRING:
     logger.error('Please fill the SESSION_STRING variable in config.json file!')
     sys.exit(1)
 
+DOWNLOAD_DIR = configs.get('DOWNLOAD_DIR', None)
+if not DOWNLOAD_DIR:
+    DOWNLOAD_DIR = 'downloads'
+
 pm_hours = configs.get('PM_HOUR', None)
 if not pm_hours:
     pm_hours = 1
