@@ -2,8 +2,10 @@ import re
 from pyrogram import filters
 from pyrogram.enums import MessageMediaType 
 from pyrogram.handlers import MessageHandler
+from pyrogram.types import InputMediaPhoto, InputMediaVideo, InputMediaAudio, InputMediaDocument
 
 from Bot import user, logger, DOWNLOAD_DIR
+from Bot.funcs.fstools import clean_download
 from Bot.funcs.asynctools import new_task, sync_to_async
 
 def handle_media_groups(message, chat_id: int, message_id: int):
@@ -22,7 +24,9 @@ def handle_media_groups(message, chat_id: int, message_id: int):
         elif content.media == MessageMediaType.DOCUMENT:
             InputList.append(InputMediaDocument(path, caption=content.caption))
 
-    return InputList
+    message.edit("`Uploading..`")
+    user.send_media_group(message.chat.id, media=InputList)
+    message.delete()
 
 def handle_forward(message, msg):
     if msg.media:
@@ -31,21 +35,30 @@ def handle_forward(message, msg):
         message.edit("`Uploading..`")
         if msg.media == MessageMediaType.PHOTO:
             user.send_photo(message.chat.id, photo=path, caption=msg.caption, caption_entities=msg.entities)
+            message.delete()
         elif msg.media == MessageMediaType.VIDEO:
             user.send_video(message.chat.id, video=path, caption=msg.caption, caption_entities=msg.entities)
+            message.delete()
         elif msg.media == MessageMediaType.AUDIO:
             user.send_audio(message.chat.id, audio=path, caption=msg.caption, caption_entities=msg.entities)
+            message.delete()
         elif msg.media == MessageMediaType.DOCUMENT:
             user.send_document(message.chat.id, document=path, caption=msg.caption, caption_entities=msg.entities)
+            message.delete()
         elif msg.media == MessageMediaType.STICKER:
             user.send_sticker(message.chat.id, sticker=path)
+            message.delete()
         elif msg.media == MessageMediaType.ANIMATION:
             user.send_animation(message.chat.id, animation=path, caption=msg.caption, caption_entities=msg.entities)
+            message.delete()
         elif msg.media == MessageMediaType.VOICE:
             user.send_voice(message.chat.id, voice=path, caption=msg.caption, caption_entities=msg.entities)
+            message.delete()
         elif msg.media == MessageMediaType.VIDEO_NOTE:
             user.send_video_note(message.chat.id, video_note=path)
+            message.delete()
     else:
+        message.delete()
         user.send_message(message.chat.id, text=msg.text, entities=msg.entities)
 
 @new_task
@@ -91,9 +104,10 @@ async def on_forward(_, message):
         return
 
     if msg.media and msg.media_group_id:
-        medias = await sync_to_async(handle_media_groups, message, chat_id, message_id)
-        hjj
+        await sync_to_async(handle_media_groups, message, chat_id, message_id)
     else:
-        await sync_to_async()
+        await sync_to_async(handle_forward, message, msg)
+
+    await clean_download(f'{DOWNLOAD_DIR}/{message.id})
 
 user.add_handler(MessageHandler(on_forward, filters=(filters.me & filters.command(['forward','getmsg'], ['/','.',',','!']))))
