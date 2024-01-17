@@ -1,4 +1,5 @@
 from pyrogram import filters
+from pyrogram.enums import MessageMediaType 
 from pyrogram.handlers import MessageHandler
 
 from Bot import user, logger
@@ -8,7 +9,7 @@ def handle_media_groups(chat_id: int, message_id: int):
     medias = await user.get_media_group(chat_id=chat_id, message_id=message_id)
 
     for content in medias:
-        if content.media == 
+        if content.media == enums.MessageMediaType.VIDEO:
 
 def handle_forward(message, chat_id: int, message_id: int):
     try:
