@@ -1,3 +1,4 @@
+from random import choice
 from time import time, sleep
 from pyrogram import filters
 from pyrogram.handlers import MessageHandler
@@ -23,8 +24,9 @@ async def on_pm(client, message):
         
         if elapsed_time < int(pm_hold):
             return
-    
-    warn_message = await message.reply("Please don't spam, I will come back soon!")
+
+    warn_photo = choice(pm_warn_imgs)
+    warn_message = await message.reply_photo(photo=warn_photo, quote=True, caption="Please don't spam, I will come back soon!")
     previous_msg[user_id] = warn_message.id
 
 async def stop(client, message):
