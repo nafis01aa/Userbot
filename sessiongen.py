@@ -1,4 +1,4 @@
-from pyrogram import Client
+from pyrogram import Client, enums
 
 api_id = input("Enter Your API ID: ")
 
