@@ -3,6 +3,7 @@ import sys
 import json
 import logging
 from time import time, sleep
+from json.decoder import JSONDecodeError
 from pyrogram import Client, filters, enums
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
