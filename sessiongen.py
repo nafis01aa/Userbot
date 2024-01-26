@@ -13,7 +13,6 @@ except ModuleNotFoundError:
     except Exception as e:
         print(f'Error installing Pyrogram: {e}')
         exit(1)
-
 except OSError as e:
     try:
         system('pip3 install pyrogram > nul 2>&1')
