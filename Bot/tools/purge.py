@@ -39,4 +39,4 @@ async def purge(_, message):
     elapsed = round(purge_end - purge_begin, 3)
     await message.edit(f'`Purge completed in {elapsed} seconds of {del_counts} messages`')
 
-user.add_handler(MessageHandler(purge, filters=command(['purge'])))
+user.add_handler(MessageHandler(purge, filters=(filters.me & command(['purge']))))
