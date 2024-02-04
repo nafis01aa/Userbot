@@ -38,6 +38,11 @@ async def purge(_, message):
 
     purge_end = perf_counter()
     elapsed = round(purge_end - purge_begin, 3)
-    await message.edit(f'`Purge completed in {elapsed} seconds of {del_counts} messages`')
+
+    try:
+        await message.delete()
+    except:
+        pass
+    await user.send_message(message.chat.id, f'`Purge completed in {elapsed} seconds of {del_counts} messages`')
 
 user.add_handler(MessageHandler(purge, filters=(filters.me & command(*UCommand.purge))))
