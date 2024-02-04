@@ -5,6 +5,7 @@ from pyrogram.types import ChatPermissions
 from pyrogram.handlers import MessageHandler
 
 from Bot import user, logger
+from Bot.utils.commands import UCommand
 from Bot.funcs.asynctools import new_task
 
 @new_task
@@ -94,5 +95,5 @@ async def unmute(_, message):
     except Exception as e:
         await message.edit(f"`ERROR: {e}`")
 
-user.add_handler(MessageHandler(mute, filters=(filters.me & filters.command(['mute'], ['/','.',',','!']))))
-user.add_handler(MessageHandler(unmute, filters=(filters.me & filters.command(['unmute'], ['/','.',',','!']))))
+user.add_handler(MessageHandler(mute, filters=(filters.me & filters.command(*UCommand.mute))))
+user.add_handler(MessageHandler(unmute, filters=(filters.me & filters.command(*UCommand.unmute))))
