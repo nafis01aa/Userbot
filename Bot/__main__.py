@@ -5,7 +5,7 @@ from datetime import datetime
 from signal import signal, SIGINT
 from pyrogram.handlers import MessageHandler, CallbackQueryHandler
 
-from Bot.funcs.fstools import exiting
+from Bot.functions.fstools import exiting
 from Bot.admintools import ban, gban, mute, purge
 from Bot.plugins import alive, id, pmusers, restrictforwarder
 from Bot import user, user_scheduler, bot, bot_scheduler, starting_time, logger
