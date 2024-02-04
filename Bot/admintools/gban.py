@@ -6,7 +6,7 @@ from pyrogram.handlers import MessageHandler
 
 from Bot import user, logger
 from Bot.utils.commands import UCommand
-from Bot.funcs.asynctools import new_task
+from Bot.functions.asynctools import new_task
 
 @new_task
 async def gban(_, message):
