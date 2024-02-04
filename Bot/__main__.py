@@ -5,23 +5,17 @@ from datetime import datetime
 from signal import signal, SIGINT
 from pyrogram.handlers import MessageHandler, CallbackQueryHandler
 
-from Bot.utils.commands import UCommand
 from Bot.functions.fstools import exiting
+from Bot.utils.commands import BCommand, UCommand
 from Bot.admintools import ban, gban, mute, purge
 from Bot.plugins import alive, id, pmusers, restrictforwarder
 from Bot import user, user_scheduler, bot, bot_scheduler, starting_time, logger
 
 async def yo(_, message):
-    text = (
-        f'**Yoo!**'
-    )
-    await message.edit(text)
+    await message.edit('`Yoo!`')
 
 async def botstart(_, message):
-    text = (
-        f'**Welcome To Userbot!**'
-    )
-    await message.reply(text)
+    await message.reply('**Welcome To Userbot!**')
 
 async def ping(_, message):
     start_time = int(round(time() * 1000))
@@ -36,14 +30,12 @@ async def logs(_, message):
     ind = 1
     Loglines = ''
     try:
-        while len(Loglines) <= 2500:
+        while len(Loglines) <= 1500:
             Loglines = f'{logtextlines[-ind]}\n{Loglines}'
-            
             if ind == len(logtextlines):
                 break
-            
+
             ind += 1
-        
         log_text = Loglines
         await message.edit(text=log_text, disable_web_page_preview=True)
     except Exception as e:
