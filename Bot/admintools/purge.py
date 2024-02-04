@@ -1,6 +1,5 @@
 from pyrogram import filters
 from time import perf_counter
-from pyrogram.filters import command
 from pyrogram.handlers import MessageHandler
 
 from Bot import user, logger
@@ -45,4 +44,4 @@ async def purge(_, message):
         pass
     await user.send_message(message.chat.id, f'`Purge completed in {elapsed} seconds of {del_counts} messages`')
 
-user.add_handler(MessageHandler(purge, filters=(filters.me & command(*UCommand.purge))))
+user.add_handler(MessageHandler(purge, filters=(filters.me & filters.command(*UCommand.purge))))
