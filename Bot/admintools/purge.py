@@ -5,7 +5,7 @@ from pyrogram.handlers import MessageHandler
 
 from Bot import user, logger
 from Bot.utils.commands import UCommand
-from Bot.funcs.asynctools import new_task
+from Bot.functions.asynctools import new_task
 
 def get_ids(from_id: int, to_id: int):
     current_id = from_id
