@@ -4,6 +4,7 @@ from pyrogram.filters import command
 from pyrogram.handlers import MessageHandler
 
 from Bot import user, logger
+from Bot.utils.commands import UCommand
 from Bot.funcs.asynctools import new_task
 
 def get_ids(from_id: int, to_id: int):
@@ -39,4 +40,4 @@ async def purge(_, message):
     elapsed = round(purge_end - purge_begin, 3)
     await message.edit(f'`Purge completed in {elapsed} seconds of {del_counts} messages`')
 
-user.add_handler(MessageHandler(purge, filters=(filters.me & command(['purge']))))
+user.add_handler(MessageHandler(purge, filters=(filters.me & command(*UCommand.purge))))
