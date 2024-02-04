@@ -3,9 +3,9 @@ from time import time, sleep
 from pyrogram import filters
 from pyrogram.handlers import MessageHandler
 
-from Bot.funcs.fstools import get_time
+from Bot.functions.fstools import get_time
 from Bot.resources.imgs import alive_imgs
-from Bot.funcs.asynctools import new_task
+from Bot.functions.asynctools import new_task
 from Bot import user, logger, starting_time, user_full_name, user_userid
 
 @new_task
