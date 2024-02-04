@@ -5,6 +5,7 @@ from pyrogram.handlers import MessageHandler
 from pyrogram.errors import ChatForwardsRestricted
 from pyrogram.types import InputMediaPhoto, InputMediaVideo, InputMediaAudio, InputMediaDocument
 
+from Bot.utils.commands import UCommand
 from Bot import user, logger, DOWNLOAD_DIR
 from Bot.functions.fstools import clean_download
 from Bot.functions.asynctools import new_task, sync_to_async
@@ -128,4 +129,4 @@ async def on_forward(_, message):
 
     await clean_download(f'{DOWNLOAD_DIR}/{message.id}')
 
-user.add_handler(MessageHandler(on_forward, filters=(filters.me & filters.command(['forward','getmsg'], ['/','.',',','!']))))
+user.add_handler(MessageHandler(on_forward, filters=(filters.me & filters.command(*UCommand.restrictforwarder))))
