@@ -1,8 +1,7 @@
 prefixes = ['/', '.', ',', '!']
 
-class BotCommands:
+class UserCommands:
     def __init__(self):
-        self.start = (['start'], prefixes)
         self.help = (['help'], prefixes)
         self.ping = (['ping'], prefixes)
         self.yo = (['yo'], prefixes)
@@ -18,4 +17,4 @@ class BotCommands:
         self.unban = ()
         self.unmute = ()
 
-UCommand = BotCommands()
+UCommand = UserCommands()
