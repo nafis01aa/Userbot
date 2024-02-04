@@ -5,6 +5,7 @@ from datetime import datetime
 from signal import signal, SIGINT
 from pyrogram.handlers import MessageHandler, CallbackQueryHandler
 
+from Bot.utils.commands import UCommand
 from Bot.functions.fstools import exiting
 from Bot.admintools import ban, gban, mute, purge
 from Bot.plugins import alive, id, pmusers, restrictforwarder
@@ -49,21 +50,18 @@ async def logs(_, message):
         logger.error(f"{e}")
 
 async def main():
-    user.add_handler(MessageHandler(yo, filters=(filters.me & filters.command(['yo'], ['/','.',',','!']))))
-    user.add_handler(MessageHandler(logs, filters=(filters.me & filters.command(['log','logs'], ['/','.',',','!']))))
-    user.add_handler(MessageHandler(ping, filters=(filters.me & filters.command(['ping'], ['/','.',',','!']))))
-    
-    if bot:
-        logger.info('Bot started! 🔥')
-        sleep(1)
-        bot.add_handler(MessageHandler(botstart, filters=filters.command('start')))
-
+    user.add_handler(MessageHandler(logs, filters=(filters.me & filters.command(*UCommand.log))))
+    user.add_handler(MessageHandler(ping, filters=(filters.me & filters.command(*UCommand.ping))))
+    user.add_handler(MessageHandler(yo, filters=(filters.me & filters.command(*UCommand.yo))))
     logger.info('Userbot started! 🔥')
     signal(SIGINT, exiting)
 
+async def bot_main():
+    bot.add_handler(MessageHandler(botstart, filters=filters.command(*BCommand.start)))
+    logger.info('Bot started! 🔥')
+
 if bot:
-    bot.loop.run_until_complete(main())
-    bot.loop.run_forever()
-else:
-    user.loop.run_until_complete(main())
-    user.loop.run_forever()
+    bot.loop.run_until_complete(bot_main())
+
+user.loop.run_until_complete(main())
+user.loop.run_forever()
