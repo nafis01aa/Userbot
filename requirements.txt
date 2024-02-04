@@ -1,3 +1,5 @@
+aiofiles
+aioshutil
 apscheduler
 pyrogram
 python-dotenv
