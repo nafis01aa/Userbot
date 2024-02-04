@@ -20,10 +20,10 @@ Then, open project folder using this command:-
 cd Userbot
 ```
 
-Then, edit the config.json file in this folder by nano editor using this command:-
+Then, edit and fillup the config.env file with default variables in this folder by nano editor using this command:-
 
 ```
-nano config.json
+nano config.env
 ```
 
 After that install necessary modules for this userbot:-
