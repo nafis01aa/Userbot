@@ -5,6 +5,7 @@ from pyrogram.errors import FloodWait
 from pyrogram.handlers import MessageHandler
 
 from Bot import user, logger
+from Bot.utils.commands import UCommand
 from Bot.funcs.asynctools import new_task
 
 @new_task
@@ -72,4 +73,4 @@ async def gban(_, message):
     
     await message.edit(f"**#Gbanned** `{get_user.first_name} in {banned_chats} chats and removed!`")
 
-user.add_handler(MessageHandler(gban, filters=(filters.me & filters.command(['gban'], ['/','.',',','!']))))
+user.add_handler(MessageHandler(gban, filters=(filters.me & filters.command(*UCommand.gban))))
