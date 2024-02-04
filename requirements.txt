@@ -3,3 +3,4 @@ aioshutil
 apscheduler
 pyrogram
 python-dotenv
+tgcrypto
