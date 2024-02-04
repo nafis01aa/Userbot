@@ -5,6 +5,7 @@ from pyrogram.types import ChatPermissions
 from pyrogram.handlers import MessageHandler
 
 from Bot import user, logger
+from Bot.utils.commands import UCommand
 from Bot.funcs.asynctools import new_task
 
 @new_task
@@ -94,5 +95,5 @@ async def unban(_, message):
     except Exception as e:
         await message.edit(f"`ERROR: {e}`")
 
-user.add_handler(MessageHandler(ban, filters=(filters.me & filters.command(['ban'], ['/','.',',','!']))))
-user.add_handler(MessageHandler(unban, filters=(filters.me & filters.command(['unban'], ['/','.',',','!']))))
+user.add_handler(MessageHandler(ban, filters=(filters.me & filters.command(*UCommand.ban))))
+user.add_handler(MessageHandler(unban, filters=(filters.me & filters.command(*UCommand.unban))))
