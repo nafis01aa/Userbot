@@ -2,6 +2,7 @@ from pyrogram import filters, enums
 from pyrogram.handlers import MessageHandler
 
 from Bot import user, logger
+from Bot.utils.commands import UCommand
 from Bot.functions.asynctools import new_task
 
 @new_task
@@ -44,4 +45,4 @@ async def get_id(_, message):
         )
     await message.edit(id_msg, disable_web_page_preview=True)
 
-user.add_handler(MessageHandler(get_id, filters=(filters.me & filters.command(['id'], ['/','.',',','!']))))
+user.add_handler(MessageHandler(get_id, filters=(filters.me & filters.command(*UCommand.id))))
