@@ -27,4 +27,4 @@ async def _alive(_, message):
     await message.delete()
     await user.send_photo(chat_id=message.chat.id, photo=alive_image, caption=alive_msg)
 
-user.add_handler(MessageHandler(_alive, filters=(filters.me & filters.command(UCommand.alive))))
+user.add_handler(MessageHandler(_alive, filters=(filters.me & filters.command(*UCommand.alive))))
