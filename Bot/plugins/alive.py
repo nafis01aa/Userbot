@@ -3,7 +3,7 @@ from time import time, sleep
 from pyrogram import filters
 from pyrogram.handlers import MessageHandler
 
-from Bot.utils.commands import 
+from Bot.utils.commands import UCommand
 from Bot.functions.fstools import get_time
 from Bot.resources.imgs import alive_imgs
 from Bot.functions.asynctools import new_task
@@ -27,4 +27,4 @@ async def _alive(_, message):
     await message.delete()
     await user.send_photo(chat_id=message.chat.id, photo=alive_image, caption=alive_msg)
 
-user.add_handler(MessageHandler(_alive, filters=(filters.me & filters.command(['alive'], ['/','.',',','!']))))
+user.add_handler(MessageHandler(_alive, filters=(filters.me & filters.command(UCommand.alive))))
