@@ -1,13 +1,16 @@
 import os
+os.system('cls || clear')
+
 import sys
 import json
 import logging
 from time import time, sleep
+from dotenv import load_dotenv
 from json.decoder import JSONDecodeError
 from pyrogram import Client, filters, enums
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
-os.system('cls || clear')
+load_dotenv('config.env', override=True)
 logging.getLogger("pyrogram").setLevel(logging.ERROR)
 logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s', handlers=[logging.FileHandler('logs.txt'), logging.StreamHandler()], level=logging.INFO)
 
@@ -17,44 +20,41 @@ logger.info('Starting deploy userbot...')
 sleep(1)
 
 try:
-    with open('config.json', 'r') as f:
-        configs = json.load(f)
+    with open('config.env', 'r') as f:
+        pass
 except FileNotFoundError:
-    logger.error('config.json file is missing! Please check.')
-    sys.exit(1)
-except JSONDecodeError:
-    logger.error('config.json file error! Probably comma or unterminated brackets!')
+    logger.error('config.env file is missing! Please check.')
     sys.exit(1)
 
-API_ID = configs.get('API_ID', None)
+API_ID = os.getenv('API_ID')
 if not API_ID:
     logger.error('Please fill the API_ID variable in config.json file!')
     sys.exit(1)
 
-API_HASH = configs.get('API_HASH', None)
+API_HASH = os.getenv('API_HASH')
 if not API_HASH:
     logger.error('Please fill the API_HASH variable in config.json file!')
     sys.exit(1)
 
-SESSION_STRING = configs.get('SESSION_STRING', None)
+SESSION_STRING = os.getenv('SESSION_STRING')
 if not SESSION_STRING:
     logger.error('Please fill the SESSION_STRING variable in config.json file!')
     sys.exit(1)
 
-DOWNLOAD_DIR = configs.get('DOWNLOAD_DIR', None)
+DOWNLOAD_DIR = os.getenv('DOWNLOAD_DIR')
 if not DOWNLOAD_DIR:
     DOWNLOAD_DIR = 'downloads'
 else:
     if DOWNLOAD_DIR.endswith('/'):
         DOWNLOAD_DIR = DOWNLOAD_DIR.rstrip('/')
 
-pm_hours = configs.get('PM_HOUR', None)
+pm_hours = os.getenv('PM_HOUR')
 if not pm_hours:
-    pm_hours = 24 # 24 hours - one day
+    pm_hours = 24 # 24 hours = one day
 else:
     pm_hours = int(pm_hours)
 
-BOT_TOKEN = configs.get('BOT_TOKEN', None)
+BOT_TOKEN = os.getenv('BOT_TOKEN')
 if not BOT_TOKEN:
     logger.warning('BOT_TOKEN variable is missing! Skipping...')
     sleep(1)
