@@ -7,6 +7,7 @@ class BotCommands:
         self.ping = (['ping'], prefixes)
         self.yo = (['yo'], prefixes)
 
+        self.id = (['id'], prefixes)
         self.alive = (['alive'], prefixes)
         self.pmstop = (['stop'], prefixes)
         self.restrictforwarder = (['forward', 'copymsg'], prefixes)
