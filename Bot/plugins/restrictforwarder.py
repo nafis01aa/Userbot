@@ -6,8 +6,8 @@ from pyrogram.errors import ChatForwardsRestricted
 from pyrogram.types import InputMediaPhoto, InputMediaVideo, InputMediaAudio, InputMediaDocument
 
 from Bot import user, logger, DOWNLOAD_DIR
-from Bot.funcs.fstools import clean_download
-from Bot.funcs.asynctools import new_task, sync_to_async
+from Bot.functions.fstools import clean_download
+from Bot.functions.asynctools import new_task, sync_to_async
 
 def handle_media_groups(message, chat_id: int, message_id: int):
     InputList = []
