@@ -18,6 +18,7 @@ class UserCommands:
         self.pmstop = (['stop'], prefixes)
         self.purge = (['purge'], prefixes)
         self.restrictforwarder = (['forward', 'copymsg'], prefixes)
+        self.schedule = (['schedule', 'sch'], prefixes)
         self.unban = (['unban'], prefixes)
         self.unmute = (['unmute'], prefixes)
         self.yo = (['yo'], prefixes)
