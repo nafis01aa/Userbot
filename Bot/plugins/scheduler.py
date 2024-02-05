@@ -19,8 +19,6 @@ async def _schedule(_, message):
         return
 
     seconds = ''
-    minutes = ''
-    hours = ''
     mode = ''
     
     if len(message.command) > 1:
@@ -33,25 +31,25 @@ async def _schedule(_, message):
                 seconds = int(message.command[1].replace('s', ''))
             elif 'm' in message.command[1]:
                 mode = 'minutes'
-                minutes = int(message.command[1].replace('m', ''))
+                seconds = int(message.command[1].replace('m', '')) * 60
             elif 'h' in message.command[1]:
                 mode = 'hours'
-                hours = int(message.command[1].replace('h', ''))
+                seconds = int(message.command[1].replace('h', '')) * 3600
         except Exception as e:
             await message.edit(f'`{e}`')
             return
     else:
         mode = 'hours'
-        hours = 1
+        seconds = 3600
 
     msg = message.reply_to_message
-    task_id = user_scheduler.add_job(scheduler_task, 'interval', (msg),
-                           seconds=seconds if seconds else 0,
-                           minutes=minutes if minutes else 0,
-                           hours=hours)
+    task_id = user_scheduler.add_job(scheduler_task,
+                                     'interval',
+                                     (msg),
+                                     seconds=seconds)
 
     content = msg.caption if msg.caption else msg.text
     sorted_tasks[task_id] = content[:10]
-    await message.edit(f'`Post scheduled for every {} `')
+    await message.edit(f'`Post scheduled for every {} {}`')
 
 user.add_handler(MessageHandler())
