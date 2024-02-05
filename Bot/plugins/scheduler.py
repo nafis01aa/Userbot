@@ -60,4 +60,4 @@ async def _schedule(_, message):
     sorted_tasks[task_id] = content[:10]
     await message.edit(f'`Post scheduled for every {val} {mode}`')
 
-user.add_handler(MessageHandler(_schedule, filters=filters.me & filters.command(*)))
+user.add_handler(MessageHandler(_schedule, filters=filters.me & filters.command(*UCommand.schedule)))
