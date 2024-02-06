@@ -7,8 +7,6 @@ from Bot.functions.fstools import get_time
 from Bot import user, user_scheduler, logger
 from Bot.functions.asynctools import new_task
 
-sorted_tasks = {}
-
 async def scheduler_task(chat_id, message):
     try:
         await message.copy(chat_id=chat_id)
@@ -50,18 +48,38 @@ async def _schedule(_, message):
         mode = 'hours'
         seconds = 3600
 
+    content = msg.caption if msg.caption else msg.text
+    task_id = f'{message.chat.id}:{content[:10]}'
     msg = message.reply_to_message
-    task_id = user_scheduler.add_job(scheduler_task,
+    user_scheduler.add_job(scheduler_task,
                                      'interval',
                                      (chat_id, msg),
-                                     seconds=seconds)
+                                     seconds=seconds,
+                                    id=task_id)
 
-    content = msg.caption if msg.caption else msg.text
-    sorted_tasks[task_id] = content[:10]
     await message.edit(f'`Post scheduled for every {val} {mode}`')
 
+@new_task
 async def _schedules(_, message):
-    f
+    chat_id = message.chat.id
+    tasks = user_scheduler.get_jobs()
+
+    chat_tasks = [job for job in tasks if job.id.startswith(f'{chat_id}:')]
+    if not chat_tasks:
+        await message.edit('`No active schedules in this chat`')
+        return
+
+    result = '`Schedules in this chat:`\n\n'
+    
+    for index, job in enumerate(chat_tasks, 1):
+        msg = job.id.split(':')[1]
+        result += f'`{index}. {msg} | Interval: {job.trigger.interval}`\n\n'
+
+    await message.edit(result, disable_web_page_preview=True)
+
+@new_task
+async def cancel_schedule(_, message):
+    
 
 user.add_handler(MessageHandler(_schedule, filters=filters.me & filters.command(*UCommand.schedule)))
-user.add_handler(MessageHandler(_schedule, filters=filters.me & filters.command(*UCommand.schedule)))
+user.add_handler(MessageHandler(_schedules, filters=filters.me & filters.command(*UCommand.schedulelist)))
