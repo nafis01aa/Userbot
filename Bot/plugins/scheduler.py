@@ -5,12 +5,17 @@ from pyrogram.handlers import MessageHandler
 
 from Bot.utils.commands import UCommand
 from Bot.functions.fstools import get_time
-from Bot import user, user_scheduler, logger
 from Bot.functions.asynctools import new_task
+from Bot import user, user_scheduler, logger, all_schedulers
 
-async def scheduler_task(chat_id, message):
+if len(all_schedulers) > 0:
+    for old_scd in all_schedulers:
+        user.copy_message(chat_id=, from_chat_id=old_scd['chat_id'], message_id=)
+        user_scheduler.add_job(scheduler_task, 'interval', (old_scd['chat_id'], old_scd['message_id']), seconds=int(old_scd['interval']))
+
+async def scheduler_task(chat_id, message_id):
     try:
-        await message.copy(chat_id=chat_id)
+        await user.copy_message(chat_id=chat_id, from_chat_id=chat_id, message_id=message_id)
     except:
         pass
 
@@ -50,14 +55,9 @@ async def _schedule(_, message):
         seconds = 3600
 
     content = msg.caption if msg.caption else msg.text
-    task_id = f'{message.chat.id}:{content[:10]}'
-    msg = message.reply_to_message
-    user_scheduler.add_job(scheduler_task,
-                                     'interval',
-                                     (chat_id, msg),
-                                     seconds=seconds,
-                                    id=task_id)
-
+    msg_chat_id = message.reply_to_message.chat.id
+    msg_message_id = message.reply_to_message.id
+    user_scheduler.add_job(scheduler_task, 'interval', (msg_chat_id, msg_message_id), seconds=seconds)
     await message.edit(f'`Post scheduled for every {val} {mode}`')
 
 @new_task
