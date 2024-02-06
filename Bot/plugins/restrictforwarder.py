@@ -124,7 +124,7 @@ async def on_forward(_, message):
         try:
             await msg.copy(chat_id=message.chat.id)
             await message.delete()
-        except ChatForwardsRestricted:
+        except (ChatForwardsRestricted, ValueError):
             await sync_to_async(handle_forward, message, msg)
 
     await clean_download(f'{DOWNLOAD_DIR}/{message.id}')
