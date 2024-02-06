@@ -4,6 +4,7 @@ os.system("cls||clear")
 import sys
 import json
 import logging
+from asyncio import run
 from time import time, sleep
 from dotenv import load_dotenv
 from pyrogram import Client, filters, enums
@@ -56,7 +57,11 @@ if not MONGODB_URL:
 else:
     connection = AsyncIOMotorClient(MONGODB_URL)
     schedule_conn = connection.PhoenixUserbot.Scheduler
-    old_jobs = schedule_conn.find({})
+
+    async def get_scd():
+        return await schedule_conn.find({})
+    
+    old_jobs = run(get_scd())
     for old_job in old_jobs:
         old_dict = {'chat_id': old_job['chat_id'], 'message_id': chat_id['message_id'], 'interval': chat_id['interval']}
         all_schedulers.append(old_dict)
