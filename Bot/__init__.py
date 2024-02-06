@@ -7,7 +7,10 @@ import logging
 from time import time, sleep
 from dotenv import load_dotenv
 from pyrogram import Client, filters, enums
+from motor.motor_asyncio import AsyncIOMotorClient
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
+
+all_schedulers = []
 
 load_dotenv('config.env', override=True)
 logging.getLogger("pyrogram").setLevel(logging.ERROR)
@@ -46,6 +49,17 @@ if not DOWNLOAD_DIR:
 else:
     if DOWNLOAD_DIR.endswith('/'):
         DOWNLOAD_DIR = DOWNLOAD_DIR.rstrip('/')
+
+MONGODB_URL = os.getenv('MONGODB_URL')
+if not MONGODB_URL:
+    logger.warning('MONGODB_URL is missing! You wont get some features if you restart userbot.')
+else:
+    connection = AsyncIOMotorClient(MONGODB_URL)
+    schedule_conn = connection.PhoenixUserbot.Scheduler
+    old_jobs = schedule_conn.find({})
+    for old_job in old_jobs:
+        old_dict = {'chat_id': old_job['chat_id'], 'message_id': chat_id['message_id'], 'interval': chat_id['interval']}
+        all_schedulers.append(old_dict)
 
 pm_hours = os.getenv('PM_HOUR')
 if not pm_hours:
