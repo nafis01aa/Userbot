@@ -1,3 +1,4 @@
+from asyncio import sleep
 from random import randint
 from pyrogram import filters
 from pyrogram.handlers import MessageHandler
@@ -79,7 +80,15 @@ async def _schedules(_, message):
 
 @new_task
 async def cancel_schedule(_, message):
-    
+    if len(message.command) < 2:
+        await message.edit('`Task id not provided. Skipping..`')
+        await sleep(1)
+        await message.delete()
+        return
+
+    task_id = message.command[1]
+    if not task_id.split(':')[0].isdigit():
+        
 
 user.add_handler(MessageHandler(_schedule, filters=filters.me & filters.command(*UCommand.schedule)))
 user.add_handler(MessageHandler(_schedules, filters=filters.me & filters.command(*UCommand.schedulelist)))
