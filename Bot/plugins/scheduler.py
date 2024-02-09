@@ -37,8 +37,8 @@ async def _schedule(_, message):
         except ValueError:
             if 's' in message.command[1]:
                 mode = 'seconds'
+                val = int(message.command[1].replace('s', ''))
                 seconds = int(message.command[1].replace('s', ''))
-                val = seconds
             elif 'm' in message.command[1]:
                 mode = 'minutes'
                 val = int(message.command[1].replace('m', ''))
@@ -58,8 +58,11 @@ async def _schedule(_, message):
     content = msg.caption if msg.caption else msg.text
     msg_chat_id = message.reply_to_message.chat.id
     msg_message_id = message.reply_to_message.id
-    user_scheduler.add_job(scheduler_task, 'interval', (msg_chat_id, msg_message_id), seconds=seconds)
+    new_shtask = user_scheduler.add_job(scheduler_task, 'interval', (msg_chat_id, msg_message_id), seconds=seconds)
     await message.edit(f'`Post scheduled for every {val} {mode}`')
+    data = {'_id': new_shtask.id,'chat_id': msg_chat_id,'message_id': msg_message_id,'mode': mode,'value': val,'interval': seconds,'content': content[:10]}
+    all_schedulers.append(data)
+    [db_add_here]
 
 @new_task
 async def _schedules(_, message):
