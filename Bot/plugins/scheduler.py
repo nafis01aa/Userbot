@@ -12,6 +12,7 @@ if len(all_schedulers) > 0:
     for old_scd in all_schedulers:
         user.copy_message(chat_id=, from_chat_id=old_scd['chat_id'], message_id=)
         user_scheduler.add_job(scheduler_task, 'interval', (old_scd['chat_id'], old_scd['message_id']), seconds=int(old_scd['interval']))
+    user_scheduler.start()
 
 async def scheduler_task(chat_id, message_id):
     try:
