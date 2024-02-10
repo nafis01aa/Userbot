@@ -10,16 +10,16 @@ from Bot.functions.asynctools import new_task
 from Bot import user, user_scheduler, logger, all_schedulers
 from Bot.functions.fstools import get_time, remove_from_old_all_schedulers
 
-if len(all_schedulers) > 0:
-    for old_scd in all_schedulers:
-        user_scheduler.add_job(scheduler_task, trigger=IntervalTrigger(seconds=old_scd['interval']), args=(old_scd['chat_id'], old_scd['message_id']))
-    user_scheduler.start()
-
 async def scheduler_task(chat_id, message_id):
     try:
         await user.copy_message(chat_id=chat_id, from_chat_id=chat_id, message_id=message_id)
     except:
         pass
+
+if len(all_schedulers) > 0:
+    for old_scd in all_schedulers:
+        user_scheduler.add_job(scheduler_task, trigger=IntervalTrigger(seconds=old_scd['interval']), args=(old_scd['chat_id'], old_scd['message_id']))
+    user_scheduler.start()
 
 @new_task
 async def _schedule(_, message):
