@@ -4,7 +4,7 @@ from pyrogram import filters
 from pyrogram.handlers import MessageHandler
 from apscheduler.triggers.interval import IntervalTrigger
 
-from Bot.utils.database import Mongodb
+from Bot.utils.database import UMdb
 from Bot.utils.commands import UCommand
 from Bot.functions.fstools import get_time
 from Bot.functions.asynctools import new_task
@@ -12,8 +12,7 @@ from Bot import user, user_scheduler, logger, all_schedulers
 
 if len(all_schedulers) > 0:
     for old_scd in all_schedulers:
-        user.copy_message(chat_id=, from_chat_id=old_scd['chat_id'], message_id=)
-        user_scheduler.add_job(scheduler_task, 'interval', (old_scd['chat_id'], old_scd['message_id']), seconds=int(old_scd['interval']))
+        user_scheduler.add_job(scheduler_task, trigger=IntervalTrigger(seconds=old_scd['interval']), (old_scd['chat_id'], old_scd['message_id']))
     user_scheduler.start()
 
 async def scheduler_task(chat_id, message_id):
@@ -57,14 +56,15 @@ async def _schedule(_, message):
         mode = 'hours'
         seconds = 3600
 
+    job_id = f'{message.chat.id}_{randint(10000,99999)}'
     content = msg.caption if msg.caption else msg.text
     msg_chat_id = message.reply_to_message.chat.id
     msg_message_id = message.reply_to_message.id
     new_shtask = user_scheduler.add_job(scheduler_task, trigger=IntervalTrigger(seconds=seconds), (msg_chat_id, msg_message_id))
     await message.edit(f'`Post scheduled for every {val} {mode}`')
     data = {'_id': new_shtask.id,'chat_id': msg_chat_id,'message_id': msg_message_id,'mode': mode,'value': val,'interval': seconds,'content': content[:10]}
-    all_schedulers.append(data)
-    [db_add_here]
+    await UMdb.insert_schedule_data(data)
+    #all_schedulers.append(data)
 
 @new_task
 async def _schedules(_, message):
