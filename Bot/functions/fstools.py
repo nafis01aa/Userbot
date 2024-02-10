@@ -2,7 +2,13 @@ import sys
 from aiofiles.os import path as aiopath
 from aioshutil import rmtree as aiormtree
 
-from Bot import user, user_scheduler, bot, bot_scheduler, logger
+from Bot import user, user_scheduler, bot, bot_scheduler, logger, all_schedulers
+
+def remove_from_old_all_schedulers(id):
+    for _dict in all_schedulers:
+        if _dict['_id'] == id:
+            all_schedulers.remove(_dict)
+            break
 
 def get_time(seconds):
     periods = [('Day', 86400), ('Hour', 3600), ('Minute', 60), ('Second', 1)]
