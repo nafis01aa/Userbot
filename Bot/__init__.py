@@ -93,5 +93,5 @@ else:
     
     old_jobs = user_loop.run_until_complete(get_scd())
     for old_job in old_jobs:
-        old_dict = {'_id': old_job['_id'], 'chat_id': old_job['chat_id'], 'message_id': chat_id['message_id'], 'interval': chat_id['interval']}
+        old_dict = {'_id': old_job['_id'], 'chat_id': old_job['chat_id'], 'message_id': old_job['message_id'], 'mode': old_job['mode'], 'value': old_job['value'], 'interval': old_job['interval'], 'content': old_job['content']}
         all_schedulers.append(old_dict)
