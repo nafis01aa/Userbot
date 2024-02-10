@@ -2,6 +2,7 @@ from asyncio import sleep
 from random import randint
 from pyrogram import filters
 from pyrogram.handlers import MessageHandler
+from apscheduler.triggers.interval import IntervalTrigger
 
 from Bot.utils.commands import UCommand
 from Bot.functions.fstools import get_time
@@ -58,7 +59,7 @@ async def _schedule(_, message):
     content = msg.caption if msg.caption else msg.text
     msg_chat_id = message.reply_to_message.chat.id
     msg_message_id = message.reply_to_message.id
-    new_shtask = user_scheduler.add_job(scheduler_task, 'interval', (msg_chat_id, msg_message_id), seconds=seconds)
+    new_shtask = user_scheduler.add_job(scheduler_task, trigger=IntervalTrigger(seconds=seconds), (msg_chat_id, msg_message_id))
     await message.edit(f'`Post scheduled for every {val} {mode}`')
     data = {'_id': new_shtask.id,'chat_id': msg_chat_id,'message_id': msg_message_id,'mode': mode,'value': val,'interval': seconds,'content': content[:10]}
     all_schedulers.append(data)
