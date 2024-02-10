@@ -4,9 +4,9 @@ os.system("cls||clear")
 import sys
 import json
 import logging
-from asyncio import run
 from time import time, sleep
 from dotenv import load_dotenv
+from asyncio import create_task
 from pyrogram import Client, filters, enums
 from motor.motor_asyncio import AsyncIOMotorClient
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
@@ -60,7 +60,7 @@ else:
     async def get_scd():
         return [doc async for doc in schedule_conn.find({})]
     
-    old_jobs = run(get_scd())
+    old_jobs = create_task(get_scd())
     for old_job in old_jobs:
         old_dict = {'chat_id': old_job['chat_id'], 'message_id': chat_id['message_id'], 'interval': chat_id['interval']}
         all_schedulers.append(old_dict)
