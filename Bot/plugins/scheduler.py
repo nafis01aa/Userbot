@@ -88,7 +88,9 @@ async def cancel_schedule(_, message):
         return
 
     task_id = message.command[1]
-    if not task_id.split(':')[0].isdigit():
+    try:
+        user_scheduler.remove_job(task_id)
+    except Exception as e:
         
 
 user.add_handler(MessageHandler(_schedule, filters=filters.me & filters.command(*UCommand.schedule)))
