@@ -63,7 +63,7 @@ async def _schedule(_, message):
     new_shtask = user_scheduler.add_job(scheduler_task, trigger=IntervalTrigger(seconds=seconds), args=(msg_chat_id, msg_message_id))
     await message.edit(f'`Post scheduled for every {val} {mode}`')
     data = {'_id': new_shtask.id,'chat_id': msg_chat_id,'message_id': msg_message_id,'mode': mode,'value': val,'interval': seconds,'content': content[:10]}
-    await UMdb.insert_schedule_data(data)
+    await UMdb.insert_schedule_data(data=data)
     all_schedulers.append(data)
 
 @new_task
@@ -91,7 +91,7 @@ async def cancel_schedule(_, message):
     task_id = message.command[1]
     try:
         user_scheduler.remove_job(task_id)
-        await UMdb.remove_schedule_data(task_id)
+        await UMdb.remove_schedule_data(id=task_id)
         await remove_from_old_all_schedulers(task_id)
         await message.edit(f'`Successfully removed this schedule task`')
         print(all_schedulers)
