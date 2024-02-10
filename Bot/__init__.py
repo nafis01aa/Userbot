@@ -1,5 +1,5 @@
 import os
-os.system("clear|cls")
+os.system("clear")
 
 import sys
 import json
