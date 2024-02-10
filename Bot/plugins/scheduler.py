@@ -90,6 +90,7 @@ async def cancel_schedule(_, message):
     task_id = message.command[1]
     try:
         user_scheduler.remove_job(task_id)
+        await UMdb.remove_schedule_data(task_id)
         await message.edit(f'`Successfully removed this schedule task`')
     except Exception as e:
         await message.edit(f'**ERROR:** `{e}`')
