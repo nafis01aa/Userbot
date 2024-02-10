@@ -8,7 +8,7 @@ from pyrogram.handlers import MessageHandler, CallbackQueryHandler
 from Bot.functions.fstools import exiting
 from Bot.utils.commands import BCommand, UCommand
 from Bot.admintools import ban, gban, mute, purge
-from Bot.plugins import alive, id, pmusers, restrictforwarder
+from Bot.plugins import alive, id, pmusers, restrictforwarder, scheduler
 from Bot import user, user_scheduler, bot, bot_scheduler, starting_time, logger
 
 async def yo(_, message):
