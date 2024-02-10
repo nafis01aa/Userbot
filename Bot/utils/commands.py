@@ -9,6 +9,7 @@ class UserCommands:
     def __init__(self):
         self.alive = (['alive'], prefixes)
         self.ban = (['ban'], prefixes)
+        self.cancelschedule = (['stopschedule', 'cancelschedule', 'removeschedule', 'stopsh', 'removesh', 'rmsh', 'rmschedule', 'cancelsh'], prefixes)
         self.gban = (['gban'], prefixes)
         self.help = (['help'], prefixes)
         self.id = (['id'], prefixes)
@@ -19,6 +20,7 @@ class UserCommands:
         self.purge = (['purge'], prefixes)
         self.restrictforwarder = (['forward', 'copymsg'], prefixes)
         self.schedule = (['schedule', 'sch'], prefixes)
+        self.schedulelist = (['schedulelist', 'shlist', 'listsh', 'listschedule'], prefixes)
         self.unban = (['unban'], prefixes)
         self.unmute = (['unmute'], prefixes)
         self.yo = (['yo'], prefixes)
