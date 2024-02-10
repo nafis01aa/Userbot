@@ -6,9 +6,9 @@ from apscheduler.triggers.interval import IntervalTrigger
 
 from Bot.utils.database import UMdb
 from Bot.utils.commands import UCommand
-from Bot.functions.fstools import get_time
 from Bot.functions.asynctools import new_task
 from Bot import user, user_scheduler, logger, all_schedulers
+from Bot.functions.fstools import get_time, remove_from_old_all_schedulers
 
 if len(all_schedulers) > 0:
     for old_scd in all_schedulers:
@@ -91,7 +91,9 @@ async def cancel_schedule(_, message):
     try:
         user_scheduler.remove_job(task_id)
         await UMdb.remove_schedule_data(task_id)
+        await remove_from_old_all_schedulers(task_id)
         await message.edit(f'`Successfully removed this schedule task`')
+        print(all_schedulers)
     except Exception as e:
         await message.edit(f'**ERROR:** `{e}`')
 
