@@ -61,6 +61,7 @@ async def _schedule(_, message):
     msg_chat_id = message.chat.id
     msg_message_id = message.reply_to_message.id
     new_shtask = user_scheduler.add_job(scheduler_task, trigger=IntervalTrigger(seconds=seconds), args=(msg_chat_id, msg_message_id))
+    user_scheduler.start()
     await message.edit(f'`Post scheduled for every {val} {mode}`')
     data = {'_id': new_shtask.id,'chat_id': msg_chat_id,'message_id': msg_message_id,'mode': mode,'value': val,'interval': seconds,'content': content[:10]}
     await UMdb.insert_schedule_data(data=data)
