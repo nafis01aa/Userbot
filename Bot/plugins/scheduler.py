@@ -90,8 +90,10 @@ async def cancel_schedule(_, message):
     task_id = message.command[1]
     try:
         user_scheduler.remove_job(task_id)
+        await message.edit(f'`Successfully removed this schedule task`')
     except Exception as e:
-        
+        await message.edit(f'**ERROR:** `{e}`')
 
 user.add_handler(MessageHandler(_schedule, filters=filters.me & filters.command(*UCommand.schedule)))
 user.add_handler(MessageHandler(_schedules, filters=filters.me & filters.command(*UCommand.schedulelist)))
+user.add_handler(MessageHandler(cancel_schedule, filters=filters.me & filters.command(*UCommand.cancelschedule)))
