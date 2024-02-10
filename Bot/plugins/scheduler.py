@@ -75,7 +75,7 @@ async def _schedules(_, message):
 
     result = '`Schedules in this chat:`\n\n'
     for index, job in enumerate(chat_tasks, 1):
-        result += f'`{index}. {job['content']} | Interval: {job['value']} {job['mode']}`\n**ID:** `{job['_id']}`\n\n'
+        result += f"`{index}. {job['content']} | Interval: {job['value']} {job['mode']}`\n**ID:** `{job['_id']}`\n\n"
 
     await message.edit(result, disable_web_page_preview=True)
 
