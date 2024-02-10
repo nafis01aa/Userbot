@@ -5,5 +5,6 @@ class UMdb:
     async def insert_schedule_data(self, data):
         return await schedule_conn.insert_one(data)
 
-    async def all(self):
-        pass
+    @staticmethod
+    async def remove_schedule_data(self, id):
+        return await schedule_conn.remove_one({'_id': id})
