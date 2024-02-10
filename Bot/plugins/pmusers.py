@@ -38,8 +38,14 @@ async def pmstop(client, message):
     stop_warn = await message.edit(f"`Successfully stopped warning message for this chat for {_hold} hours`")
     user_id = message.chat.id
     counted[user_id] = time()
-    sleep(5)
-    
+    sleep(1)
+
+    if user_id in previous_msg:
+        try:
+            await user.delete_messages(message.chat.id, previous_msg[user_id])
+        except:
+            pass
+
     try:
         await user.delete_messages(message.chat.id, stop_warn.id)
     except:
