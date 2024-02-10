@@ -12,7 +12,7 @@ from Bot.functions.fstools import get_time, remove_from_old_all_schedulers
 
 if len(all_schedulers) > 0:
     for old_scd in all_schedulers:
-        user_scheduler.add_job(scheduler_task, trigger=IntervalTrigger(seconds=old_scd['interval']), (old_scd['chat_id'], old_scd['message_id']), id=old_scd['_id'])
+        user_scheduler.add_job(scheduler_task, trigger=IntervalTrigger(seconds=old_scd['interval']), args=(old_scd['chat_id'], old_scd['message_id']))
     user_scheduler.start()
 
 async def scheduler_task(chat_id, message_id):
@@ -59,7 +59,7 @@ async def _schedule(_, message):
     content = msg.caption if msg.caption else msg.text
     msg_chat_id = message.chat.id
     msg_message_id = message.reply_to_message.id
-    new_shtask = user_scheduler.add_job(scheduler_task, trigger=IntervalTrigger(seconds=seconds), (msg_chat_id, msg_message_id))
+    new_shtask = user_scheduler.add_job(scheduler_task, trigger=IntervalTrigger(seconds=seconds), args=(msg_chat_id, msg_message_id))
     await message.edit(f'`Post scheduled for every {val} {mode}`')
     data = {'_id': new_shtask.id,'chat_id': msg_chat_id,'message_id': msg_message_id,'mode': mode,'value': val,'interval': seconds,'content': content[:10]}
     await UMdb.insert_schedule_data(data)
