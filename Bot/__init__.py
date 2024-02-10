@@ -51,20 +51,6 @@ else:
     if DOWNLOAD_DIR.endswith('/'):
         DOWNLOAD_DIR = DOWNLOAD_DIR.rstrip('/')
 
-MONGODB_URL = os.getenv('MONGODB_URL')
-if not MONGODB_URL:
-    logger.warning('MONGODB_URL is missing! You wont get some features if you restart userbot.')
-else:
-    connection = AsyncIOMotorClient(MONGODB_URL)
-    schedule_conn = connection.PhoenixUserbot.Scheduler
-    async def get_scd():
-        return [doc async for doc in schedule_conn.find({})]
-    
-    old_jobs = create_task(get_scd())
-    for old_job in old_jobs:
-        old_dict = {'chat_id': old_job['chat_id'], 'message_id': chat_id['message_id'], 'interval': chat_id['interval']}
-        all_schedulers.append(old_dict)
-
 pm_hours = os.getenv('PM_HOUR')
 if not pm_hours:
     pm_hours = 24 # 24 hours = one day
@@ -95,3 +81,17 @@ else:
     bot = ''
     bot_loop = ''
     bot_scheduler = ''
+
+MONGODB_URL = os.getenv('MONGODB_URL')
+if not MONGODB_URL:
+    logger.warning('MONGODB_URL is missing! You wont get some features if you restart userbot.')
+else:
+    connection = AsyncIOMotorClient(MONGODB_URL)
+    schedule_conn = connection.PhoenixUserbot.Scheduler
+    async def get_scd():
+        return [doc async for doc in schedule_conn.find({})]
+    
+    old_jobs = user_loop.run_until_complete(get_scd())
+    for old_job in old_jobs:
+        old_dict = {'_id': old_job['_id'], 'chat_id': old_job['chat_id'], 'message_id': chat_id['message_id'], 'interval': chat_id['interval']}
+        all_schedulers.append(old_dict)
