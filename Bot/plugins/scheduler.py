@@ -4,6 +4,7 @@ from pyrogram import filters
 from pyrogram.handlers import MessageHandler
 from apscheduler.triggers.interval import IntervalTrigger
 
+from Bot.utils.database import Mongodb
 from Bot.utils.commands import UCommand
 from Bot.functions.fstools import get_time
 from Bot.functions.asynctools import new_task
