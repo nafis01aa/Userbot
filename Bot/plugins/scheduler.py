@@ -12,7 +12,7 @@ from Bot import user, user_scheduler, logger, all_schedulers
 
 if len(all_schedulers) > 0:
     for old_scd in all_schedulers:
-        user_scheduler.add_job(scheduler_task, trigger=IntervalTrigger(seconds=old_scd['interval']), (old_scd['chat_id'], old_scd['message_id']))
+        user_scheduler.add_job(scheduler_task, trigger=IntervalTrigger(seconds=old_scd['interval']), (old_scd['chat_id'], old_scd['message_id']), id=old_scd['_id'])
     user_scheduler.start()
 
 async def scheduler_task(chat_id, message_id):
@@ -56,31 +56,26 @@ async def _schedule(_, message):
         mode = 'hours'
         seconds = 3600
 
-    job_id = f'{message.chat.id}_{randint(10000,99999)}'
     content = msg.caption if msg.caption else msg.text
-    msg_chat_id = message.reply_to_message.chat.id
+    msg_chat_id = message.chat.id
     msg_message_id = message.reply_to_message.id
     new_shtask = user_scheduler.add_job(scheduler_task, trigger=IntervalTrigger(seconds=seconds), (msg_chat_id, msg_message_id))
     await message.edit(f'`Post scheduled for every {val} {mode}`')
     data = {'_id': new_shtask.id,'chat_id': msg_chat_id,'message_id': msg_message_id,'mode': mode,'value': val,'interval': seconds,'content': content[:10]}
     await UMdb.insert_schedule_data(data)
-    #all_schedulers.append(data)
+    all_schedulers.append(data)
 
 @new_task
 async def _schedules(_, message):
     chat_id = message.chat.id
-    tasks = user_scheduler.get_jobs()
-
-    chat_tasks = [job for job in tasks if job.id.startswith(f'{chat_id}:')]
+    chat_tasks = [job for job in all_schedulers if job['chat_id'] == f'{chat_id}']
     if not chat_tasks:
         await message.edit('`No active schedules in this chat`')
         return
 
     result = '`Schedules in this chat:`\n\n'
-    
     for index, job in enumerate(chat_tasks, 1):
-        msg = job.id.split(':')[1]
-        result += f'`{index}. {msg} | Interval: {job.trigger.interval}`\n\n'
+        result += f'`{index}. {job['content']} | Interval: {job['value'] job['mode']}`\n**ID:** `{job['_id']}`\n\n'
 
     await message.edit(result, disable_web_page_preview=True)
 
