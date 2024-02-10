@@ -57,9 +57,8 @@ if not MONGODB_URL:
 else:
     connection = AsyncIOMotorClient(MONGODB_URL)
     schedule_conn = connection.PhoenixUserbot.Scheduler
-
     async def get_scd():
-        return await schedule_conn.find({})
+        return [doc async for doc in schedule_conn.find({})]
     
     old_jobs = run(get_scd())
     for old_job in old_jobs:
