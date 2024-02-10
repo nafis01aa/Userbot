@@ -56,6 +56,7 @@ async def _schedule(_, message):
         mode = 'hours'
         seconds = 3600
 
+    msg = message.reply_to_message
     content = msg.caption if msg.caption else msg.text
     msg_chat_id = message.chat.id
     msg_message_id = message.reply_to_message.id
