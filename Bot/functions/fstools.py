@@ -4,12 +4,6 @@ from aioshutil import rmtree as aiormtree
 
 from Bot import user, user_scheduler, bot, bot_scheduler, logger, all_schedulers
 
-def remove_from_old_all_schedulers(id):
-    for _dict in all_schedulers:
-        if _dict['_id'] == id:
-            all_schedulers.remove(_dict)
-            break
-
 def get_time(seconds):
     periods = [('Day', 86400), ('Hour', 3600), ('Minute', 60), ('Second', 1)]
     result = ''
@@ -36,6 +30,12 @@ def exiting(signal, frame):
     
     logger.info('Exiting deploy..!')
     sys.exit(0)
+
+async def remove_from_old_all_schedulers(id):
+    for _dict in all_schedulers:
+        if _dict['_id'] == id:
+            all_schedulers.remove(_dict)
+            break
 
 async def clean_download(path):
     if await aiopath.exists(path):
