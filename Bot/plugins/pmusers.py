@@ -51,5 +51,5 @@ async def pmstop(client, message):
     except:
         pass
 
-user.add_handler(MessageHandler(on_pm, filters=(filters.private & ~filters.me)))
+user.add_handler(MessageHandler(on_pm, filters=(filters.private & ~filters.me & ~filters.bot)))
 user.add_handler(MessageHandler(pmstop, filters=(filters.private & filters.me & filters.command(*UCommand.pmstop))))
