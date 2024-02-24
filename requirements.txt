@@ -2,6 +2,7 @@ aiofiles
 aioshutil
 apscheduler
 motor
+pyleaves
 pyrogram
 python-dotenv
 tgcrypto
