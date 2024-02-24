@@ -1,4 +1,6 @@
 import re
+from time import time
+from pyleaves import Leaves
 from pyrogram import filters
 from pyrogram.enums import MessageMediaType 
 from pyrogram.handlers import MessageHandler
@@ -9,6 +11,13 @@ from Bot.utils.commands import UCommand
 from Bot import user, logger, DOWNLOAD_DIR
 from Bot.functions.fstools import clean_download
 from Bot.functions.asynctools import new_task, sync_to_async
+
+PROGRESS_BAR = """
+
+🚧 PC: {percentage}%
+⚡ Speed: {speed}/s
+📶 Status: {current} of {total}
+"""
 
 def handle_media_groups(message, chat_id: int, message_id: int):
     InputList = []
@@ -32,6 +41,7 @@ def handle_media_groups(message, chat_id: int, message_id: int):
 
 def handle_forward(message, msg):
     if msg.media:
+        loading_header = "📥 Upload Progress 📥"
         message.edit("`Uploading..`")
         if msg.media == MessageMediaType.PHOTO:
             path = user.download_media(message=msg, file_name=f'{DOWNLOAD_DIR}/{message.id}/')
@@ -39,7 +49,7 @@ def handle_forward(message, msg):
             message.delete()
         elif msg.media == MessageMediaType.VIDEO:
             path = user.download_media(message=msg, file_name=f'{DOWNLOAD_DIR}/{message.id}/')
-            user.send_video(message.chat.id, video=path, caption=msg.caption, caption_entities=msg.entities)
+            user.send_video(message.chat.id, video=path, caption=msg.caption, caption_entities=msg.entities, progress=Leaves.progress_for_pyrogram, progress_args=(loading_header, message, time(), PROGRESS_BAR, '▓', '░'))
             message.delete()
         elif msg.media == MessageMediaType.AUDIO:
             path = user.download_media(message=msg, file_name=f'{DOWNLOAD_DIR}/{message.id}/')
@@ -47,7 +57,7 @@ def handle_forward(message, msg):
             message.delete()
         elif msg.media == MessageMediaType.DOCUMENT:
             path = user.download_media(message=msg, file_name=f'{DOWNLOAD_DIR}/{message.id}/')
-            user.send_document(message.chat.id, document=path, caption=msg.caption, caption_entities=msg.entities)
+            user.send_document(message.chat.id, document=path, caption=msg.caption, caption_entities=msg.entities, progress=Leaves.progress_for_pyrogram, progress_args=(loading_header, message, time(), PROGRESS_BAR, '▓', '░'))
             message.delete()
         elif msg.media == MessageMediaType.STICKER:
             path = user.download_media(message=msg, file_name=f'{DOWNLOAD_DIR}/{message.id}/')
