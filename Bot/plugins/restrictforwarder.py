@@ -48,7 +48,7 @@ def handle_forward(message, msg):
             user.send_photo(message.chat.id, photo=path, caption=msg.caption, caption_entities=msg.entities)
             message.delete()
         elif msg.media == MessageMediaType.VIDEO:
-            path = user.download_media(message=msg, file_name=f'{DOWNLOAD_DIR}/{message.id}/')
+            path = user.download_media(message=msg, file_name=f'{DOWNLOAD_DIR}/{message.id}/', progress=Leaves.progress_for_pyrogram, progress_args=("📥 Download Progress 📥", message, time(), PROGRESS_BAR, '▓', '░'))
             user.send_video(message.chat.id, video=path, caption=msg.caption, caption_entities=msg.entities, progress=Leaves.progress_for_pyrogram, progress_args=(loading_header, message, time(), PROGRESS_BAR, '▓', '░'))
             message.delete()
         elif msg.media == MessageMediaType.AUDIO:
