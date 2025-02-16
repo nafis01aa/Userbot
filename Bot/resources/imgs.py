@@ -1,4 +1,5 @@
 # Image Database
+# Only Userbot
 
 alive_imgs = [
     "https://graph.org/file/11d1029274122a4fc64bc.jpg",
